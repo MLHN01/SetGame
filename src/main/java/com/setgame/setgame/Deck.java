@@ -8,6 +8,7 @@ import java.util.Collections;
 public class Deck {
     private List<Card> cards = new ArrayList<>();
 
+    // Konstruktor, der das Deck initialisiert
     public Deck() {
         for (CardColor color : CardColor.values()) {
             for (CardShape shape : CardShape.values()) {
@@ -21,5 +22,23 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
-    // Methoden zum Ziehen einer Karte oder zum Überprüfen des Decks
+
+
+   // Methode, die eine Karte vom Deck zieht
+    public Card drawCard() {
+        if (cards.isEmpty()) {
+            return null;
+        }
+        return cards.remove(0);
+    }
+
+    // Methode, die prüft, ob das Deck leer ist
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
+
+    // Methode, die die Anzahl der Karten im Deck zurückgibt
+    public int size() {
+        return cards.size();
+    }
 }

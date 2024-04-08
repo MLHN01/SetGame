@@ -4,6 +4,7 @@ import com.setgame.setgame.Deck;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
+// Controller-Klasse für das Spiel
 public class GameController {
     private GameView gameView;
     private Deck deck;

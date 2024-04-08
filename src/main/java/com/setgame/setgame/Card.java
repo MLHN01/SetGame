@@ -2,10 +2,18 @@ package com.setgame.setgame;
 
 import com.setgame.setgame.enums.*;
 
+// Klasse, welche eine Karte repräsentiert
 public class Card {
+    // Gibt die Farbe der Karte an
     private final CardColor color;
+
+    // Gibt die Form der Karte an
     private final CardShape shape;
+
+    // Gibt die Füllung der Karte an
     private final CardFilling filling;
+
+    // Gibt die Anzahl der Symbole auf der Karte an
     private final CardNumber number;
 
     public Card(CardColor color, CardShape shape, CardFilling filling, CardNumber number) {
@@ -31,6 +39,7 @@ public class Card {
         return number;
     }
 
+    // Methode, welche eine Karte als String zurückgibt
     @Override
     public String toString() {
         return "Card{" +

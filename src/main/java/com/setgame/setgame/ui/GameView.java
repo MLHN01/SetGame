@@ -7,8 +7,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+// Repräsentiert die Ansicht des Spiels
 public class GameView {
+    // Layout-Element für die Ansicht
     private BorderPane layout;
+
+    // Button für Neustart
     private Button restartButton; // Button als Instanzvariable
 
     public GameView() {
@@ -24,7 +28,7 @@ public class GameView {
         gameBoard.setAlignment(Pos.CENTER);
         gameBoard.setHgap(10);
         gameBoard.setVgap(10);
-        // Hier würdest du die Karten zum Grid hinzufügen
+        // Weitere Initialisierungen...
         layout.setCenter(gameBoard);
 
         // Scoreboard
@@ -33,16 +37,17 @@ public class GameView {
         scoreBoard.setAlignment(Pos.CENTER);
         layout.setTop(scoreBoard);
 
-        // Hier fügst du den EventHandler für den Button hinzu
         HBox controls = new HBox(restartButton);
         controls.setAlignment(Pos.CENTER);
         layout.setBottom(controls);
     }
 
+    // Getter für das Layout
     public BorderPane getLayout() {
         return layout;
     }
 
+    // Getter für den Neustart-Button
     public Button getRestartButton() {
         return restartButton; // Stelle sicher, dass restartButton als Instanzvariable verfügbar ist
     }
