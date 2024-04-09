@@ -1,5 +1,6 @@
 package com.setgame.setgame.ui;
 
+import com.setgame.setgame.Card;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -21,27 +22,26 @@ public class GameBoard {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setStyle("-fx-background-color: #f0f0f0;");
-
-        initializeCards(3, 4); // 3 Reihen, 4 Spalten
     }
 
-    // Initialisiere die Karten auf dem Spielfeld
-    private void initializeCards(int rows, int cols) {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                Button card = new Button();
-                card.setPrefSize(120, 180);
 
-                final int r = row, c = col;
-                card.setOnAction(event -> handleCardClick(r, c)); // Event-Handler für Klick auf Karte
-                gridPane.add(card, col, row);
-            }
-        }
+
+
+    public void addCardToBoard(Card card, int row, int col) {
+        Button cardButton = new Button(card.toString());
+        cardButton.setPrefSize(600, 100); // Festlegen der Größe für die Buttons
+        cardButton.setOnAction(event -> handleCardClick(row, col));
+        gridPane.add(cardButton, col, row);
     }
 
     // Event-Handler-Methode für Klick auf Karte
-    private void handleCardClick(int row, int col) {
-        System.out.println("Karte angeklickt bei: Reihe " + row + ", Spalte " + col);
+    private void handleCardClick(int rows, int cols) {
+        System.out.println("Karte an Position (" + rows + ", " + cols + ") wurde geklickt.");
+        selectedCardsCount++;
+        if (selectedCardsCount == 3) {
+            System.out.println("3 Karten ausgewählt!");
+            selectedCardsCount = 0; // Zurücksetzen
+        }
 
     }
 

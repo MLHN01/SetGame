@@ -11,7 +11,7 @@ public class GameController {
 
     public GameController(GameView gameView) {
         this.gameView = gameView;
-        this.deck = new Deck(); // Initialisiere dein Deck hier, füge Karten hinzu, etc.
+        this.deck = new Deck();
         initialize();
     }
 
@@ -19,14 +19,11 @@ public class GameController {
         // Setze Event Handler für UI-Komponenten
         // Zum Beispiel für den Neustart-Button
         gameView.getRestartButton().setOnAction(this::handleRestartGame);
-        // Weitere Initialisierungen...
     }
 
     // Event-Handler-Methode
     private void handleRestartGame(ActionEvent event) {
         System.out.println("Spiel wird neugestartet...");
-        // Füge Logik hier hinzu, um das Spiel neu zu starten
     }
 
-    // Weitere Methoden für die Spiellogik...
 }

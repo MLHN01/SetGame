@@ -5,11 +5,32 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
+// Klasse, die ein Deck repräsentiert
 public class Deck {
+
+    // Liste, die die Karten im Deck speichert
     private List<Card> cards = new ArrayList<>();
 
     // Konstruktor, der das Deck initialisiert
     public Deck() {
+        resetDeck();
+    }
+
+    // Methode, die mehrere Karten vom Deck zieht
+    public List<Card> drawCards(int numberOfCards) {
+        List<Card> drawnCards = new ArrayList<>();
+        for (int i = 0; i < numberOfCards; i++) {
+            if (cards.isEmpty()) {
+                break;
+            }
+            drawnCards.add(cards.remove(0));
+        }
+        return drawnCards;
+    }
+
+    // Methode, die das Deck zurücksetzt
+    public void resetDeck(){
+        cards.clear();
         for (CardColor color : CardColor.values()) {
             for (CardShape shape : CardShape.values()) {
                 for (CardFilling filling : CardFilling.values()) {
@@ -20,16 +41,6 @@ public class Deck {
             }
         }
         Collections.shuffle(cards);
-    }
-
-
-
-   // Methode, die eine Karte vom Deck zieht
-    public Card drawCard() {
-        if (cards.isEmpty()) {
-            return null;
-        }
-        return cards.remove(0);
     }
 
     // Methode, die prüft, ob das Deck leer ist

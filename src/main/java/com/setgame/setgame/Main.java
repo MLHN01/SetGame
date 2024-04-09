@@ -5,17 +5,34 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class Main extends Application {
+
+    private GameBoard gameBoard;
+    private Deck deck;
 
     @Override
     public void start(Stage primaryStage) {
-        GameBoard gameBoard = new GameBoard();
+        deck = new Deck(); // Deck erstellen und mischen
+        gameBoard = new GameBoard(); // Initialisiere dein GameBoard
+        drawInitialCards();
 
-        Scene scene = new Scene(gameBoard.getLayout(), 800, 600);
-
-        primaryStage.setTitle("Set Game");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(new Scene(gameBoard.getLayout()));
         primaryStage.show();
+    }
+
+    // Methode, um die anfänglichen Karten auf das Spielfeld zu zeichnen
+    private void drawInitialCards() {
+        List<Card> cardsOnBoard = deck.drawCards(12);
+        int row = 0, col = 0;
+        for (Card card : cardsOnBoard) {
+            gameBoard.addCardToBoard(card, row, col++);
+            if (col > 2) {
+                col = 0;
+                row++;
+            }
+        }
     }
 
     public static void main(String[] args) {
