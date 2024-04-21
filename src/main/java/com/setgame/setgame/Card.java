@@ -17,14 +17,7 @@ public class Card {
     private final CardNumber number;
 
     // Gibt den Dateinamen des Bildes der Karte an
-    private String imageFileName = "cover.png";
-
-    public Card(CardColor color, CardShape shape, CardFilling filling, CardNumber number) {
-        this.color = color;
-        this.shape = shape;
-        this.filling = filling;
-        this.number = number;
-    }
+    private String imageFileName;
 
     public Card(CardColor color, CardShape shape, CardFilling filling, CardNumber number, String imageFileName) {
         this.color = color;
