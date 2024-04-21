@@ -28,7 +28,7 @@ public class Main extends Application {
         int row = 0, col = 0;
         for (Card card : cardsOnBoard) {
             gameBoard.addCardToBoard(card, row, col++);
-            if (col > 2) {
+            if (col > 3) {
                 col = 0;
                 row++;
             }

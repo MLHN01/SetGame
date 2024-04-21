@@ -28,7 +28,7 @@ public class GameView {
         gameBoard.setAlignment(Pos.CENTER);
         gameBoard.setHgap(10);
         gameBoard.setVgap(10);
-        // Weitere Initialisierungen...
+
         layout.setCenter(gameBoard);
 
         // Scoreboard
@@ -49,6 +49,6 @@ public class GameView {
 
     // Getter für den Neustart-Button
     public Button getRestartButton() {
-        return restartButton; // Stelle sicher, dass restartButton als Instanzvariable verfügbar ist
+        return restartButton;
     }
 }
