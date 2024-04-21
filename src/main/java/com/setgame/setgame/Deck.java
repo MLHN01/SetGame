@@ -35,7 +35,7 @@ public class Deck {
             for (CardShape shape : CardShape.values()) {
                 for (CardFilling filling : CardFilling.values()) {
                     for (CardNumber number : CardNumber.values()) {
-                        cards.add(new Card(color, shape, filling, number));
+                        cards.add(new Card(color, shape, filling, number, "card_" + color + "_" + shape + "_" + filling + "_" + number + ".png"));
                     }
                 }
             }
