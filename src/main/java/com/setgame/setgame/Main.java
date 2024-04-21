@@ -14,6 +14,7 @@ public class Main extends Application {
     private GameBoardController gameBoard;
     private Deck deck;
 
+    // Programmeinstieg für JavaFX
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/ui/GameBoard.fxml"));

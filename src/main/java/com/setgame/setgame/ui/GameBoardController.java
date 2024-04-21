@@ -30,11 +30,11 @@ public class GameBoardController {
     // Methode, um eine Karte auf das Spielfeld zu zeichnen
     public void addCardToBoard(Card card, int row, int col) {
         // Pfad zum Bild der Karte
-        String imagePath = "/com/setgame/setgame/CardImages/" + "cover.png";//card.getImageFileName();
+        String imagePath = "/com/setgame/setgame/CardImages/" + card.getImageFileName();
         Image image = new Image(getClass().getResourceAsStream(imagePath));
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(100); 
-        imageView.setFitHeight(150); 
+        imageView.setFitWidth(150); 
+        imageView.setFitHeight(98); 
 
         Button cardButton = new Button();
         cardButton.setGraphic(imageView); // Bild zum Button hinzufügen
