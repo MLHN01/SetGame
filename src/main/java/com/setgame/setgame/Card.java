@@ -21,13 +21,12 @@ public class Card {
     // Gibt den Dateinamen des Bildes der Karte an
     private String imageFileName;
 
+    // Gibt die Position der Karte auf dem Spielfeld an
     private int row;
-
     private int col;
 
+    // Gibt den Button an, der die Karte repräsentiert
     private Button button;
-
-
 
 
     public Card(CardColor color, CardShape shape, CardFilling filling, CardNumber number, String imageFileName) {
@@ -36,6 +35,18 @@ public class Card {
         this.filling = filling;
         this.number = number;
         this.imageFileName = imageFileName;
+    }
+
+    // Methode, welche eine Karte als String zurückgibt
+    @Override
+    public String toString() {
+        return "Card{" +
+                "color=" + color +
+                ", shape=" + shape +
+                ", filling=" + filling +
+                ", number=" + number +
+                ", imageFileName='" + imageFileName + 
+                '}';
     }
 
     public CardColor getColor() {
@@ -84,15 +95,4 @@ public class Card {
         this.button = button;
     }
 
-    // Methode, welche eine Karte als String zurückgibt
-    @Override
-    public String toString() {
-        return "Card{" +
-                "color=" + color +
-                ", shape=" + shape +
-                ", filling=" + filling +
-                ", number=" + number +
-                ", imageFileName='" + imageFileName + 
-                '}';
-    }
 }

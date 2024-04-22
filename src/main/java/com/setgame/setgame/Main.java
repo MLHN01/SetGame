@@ -25,19 +25,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    // Methode, um die anfänglichen Karten auf das Spielfeld zu zeichnen
-    private void drawInitialCards() {
-        List<Card> cardsOnBoard = deck.drawCards(12);
-        int row = 0, col = 0;
-        for (Card card : cardsOnBoard) {
-            gameBoard.addCardToBoard(card, row, col++);
-            if (col > 2) {
-                col = 0;
-                row++;
-            }
-        }
-    }
-
     public static void main(String[] args) {
         launch(args);
     }

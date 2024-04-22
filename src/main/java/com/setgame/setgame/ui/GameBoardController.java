@@ -20,6 +20,7 @@ public class GameBoardController {
     private int selectedCardsCount = 0;
     private List<Card> selectedCards = new ArrayList<>();
     private Deck deck;
+    private int score = 0;
 
     @FXML
     public void initialize() {
@@ -39,10 +40,29 @@ public class GameBoardController {
         Button cardButton = new Button();
         cardButton.setGraphic(imageView); // Bild zum Button hinzufügen
         cardButton.setOnAction(event -> handleCardClick(card,cardButton));
-
         card.setButton(cardButton);
 
         gridPane.add(cardButton, col, row);
+
+        // score feld auf die gridpane hinzufügen
+        Button scoreButton = new Button();
+        scoreButton.setText("Score: " + score);
+        gridPane.add(scoreButton, 3, 0);
+
+        // reset board button hinzufügen
+        Button resetButton = new Button();
+        resetButton.setText("Reset Board");
+        resetButton.setOnAction(event -> {
+            deck.resetDeck();
+            clearBoard();
+            drawInitialCards();
+            score = 0;
+            scoreButton.setText("Score: " + score);
+        });
+        gridPane.add(resetButton, 3, 1);
+
+
+
     }
 
     // Methode, um auf Klicks auf Karten zu reagieren
@@ -55,6 +75,9 @@ public class GameBoardController {
         if (selectedCardsCount == 3) {
             if(SetGameUtils.isSet(selectedCards)) {
                 System.out.println("Set gefunden!");
+                
+                // Score erhöhen
+                score++;
 
                 // Karten entfernen
                 for (Card selectedCard : selectedCards) {
@@ -98,7 +121,6 @@ public class GameBoardController {
         int row = 0, col = 0;
         for (Card card : cardsOnBoard) {
             
-            
             card.setRow(row);
             card.setCol(col);
 
@@ -109,5 +131,9 @@ public class GameBoardController {
                 row++;
             }
         }
+    }
+
+    private void clearBoard() {
+        gridPane.getChildren().clear();
     }
 }
