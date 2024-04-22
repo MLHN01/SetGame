@@ -67,7 +67,7 @@ public class GameBoardController {
         int row = 0, col = 0;
         for (Card card : cardsOnBoard) {
             addCardToBoard(card, row, col++);
-            if (col > 3) {
+            if (col > 2) {
                 col = 0;
                 row++;
             }
