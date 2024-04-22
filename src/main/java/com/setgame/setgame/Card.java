@@ -2,6 +2,8 @@ package com.setgame.setgame;
 
 import com.setgame.setgame.enums.*;
 
+import javafx.scene.control.Button;
+
 // Klasse, welche eine Karte repräsentiert
 public class Card {
     // Gibt die Farbe der Karte an
@@ -18,6 +20,15 @@ public class Card {
 
     // Gibt den Dateinamen des Bildes der Karte an
     private String imageFileName;
+
+    private int row;
+
+    private int col;
+
+    private Button button;
+
+
+
 
     public Card(CardColor color, CardShape shape, CardFilling filling, CardNumber number, String imageFileName) {
         this.color = color;
@@ -45,6 +56,32 @@ public class Card {
 
     public String getImageFileName() {
         return imageFileName;
+    }
+
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    
+    public Button getButton() {
+        return button;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
     }
 
     // Methode, welche eine Karte als String zurückgibt

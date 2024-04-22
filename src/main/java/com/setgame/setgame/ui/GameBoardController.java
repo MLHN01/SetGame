@@ -40,6 +40,8 @@ public class GameBoardController {
         cardButton.setGraphic(imageView); // Bild zum Button hinzufügen
         cardButton.setOnAction(event -> handleCardClick(card,cardButton));
 
+        card.setButton(cardButton);
+
         gridPane.add(cardButton, col, row);
     }
 
@@ -53,8 +55,37 @@ public class GameBoardController {
         if (selectedCardsCount == 3) {
             if(SetGameUtils.isSet(selectedCards)) {
                 System.out.println("Set gefunden!");
+
+                // Karten entfernen
+                for (Card selectedCard : selectedCards) {
+                    gridPane.getChildren().remove(selectedCard.getButton());
+                }
+
+                // Neue Karten hinzufügen
+                List<Card> newCards = deck.drawCards(3);
+
+                int index = 0;
+                for (Card newCard : newCards) {
+                    int row = selectedCards.get(index).getRow();
+                    int col = selectedCards.get(index).getCol();
+                    
+                    newCard.setRow(row);
+                    newCard.setCol(col);
+                    
+                    addCardToBoard(newCard, row, col);
+                    
+                    index++;
+                }
+
+
             } else {
                 System.out.println("Kein Set gefunden!");
+
+                // Karten wieder aktivieren
+                for(Card selectedCard : selectedCards){
+                    selectedCard.getButton().setDisable(false);
+
+                }       
             }
             selectedCardsCount = 0;
             selectedCards.clear();
@@ -66,7 +97,13 @@ public class GameBoardController {
         List<Card> cardsOnBoard = deck.drawCards(12);
         int row = 0, col = 0;
         for (Card card : cardsOnBoard) {
+            
+            
+            card.setRow(row);
+            card.setCol(col);
+
             addCardToBoard(card, row, col++);
+
             if (col > 2) {
                 col = 0;
                 row++;
