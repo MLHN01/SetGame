@@ -15,7 +15,16 @@ import com.setgame.setgame.util.SetGameUtils;
 public class GameBoardController {
 
     @FXML
+    private GridPane gridPaneMain;
+
+    @FXML
     private GridPane gridPane;
+
+    @FXML
+    private Button scoreButton;
+
+    @FXML
+    private Button resetButton;
 
     private int selectedCardsCount = 0;
     private List<Card> selectedCards = new ArrayList<>();
@@ -24,6 +33,21 @@ public class GameBoardController {
 
     @FXML
     public void initialize() {
+
+
+        scoreButton.setText("Score: " + score);
+
+        
+        // reset board button hinzufügen
+        resetButton.setText("Reset Board");
+        resetButton.setOnAction(event -> {
+            deck.resetDeck();
+            clearBoard();
+            drawInitialCards();
+            score = 0;
+            scoreButton.setText("Score: " + score);
+        });
+
         deck = new Deck(); // Deck erstellen und mischen
         drawInitialCards();
     }
@@ -43,26 +67,6 @@ public class GameBoardController {
         card.setButton(cardButton);
 
         gridPane.add(cardButton, col, row);
-
-        // score feld auf die gridpane hinzufügen
-        Button scoreButton = new Button();
-        scoreButton.setText("Score: " + score);
-        gridPane.add(scoreButton, 3, 0);
-
-        // reset board button hinzufügen
-        Button resetButton = new Button();
-        resetButton.setText("Reset Board");
-        resetButton.setOnAction(event -> {
-            deck.resetDeck();
-            clearBoard();
-            drawInitialCards();
-            score = 0;
-            scoreButton.setText("Score: " + score);
-        });
-        gridPane.add(resetButton, 3, 1);
-
-
-
     }
 
     // Methode, um auf Klicks auf Karten zu reagieren
@@ -78,6 +82,7 @@ public class GameBoardController {
                 
                 // Score erhöhen
                 score++;
+                scoreButton.setText("Score: " + score);
 
                 // Karten entfernen
                 for (Card selectedCard : selectedCards) {
