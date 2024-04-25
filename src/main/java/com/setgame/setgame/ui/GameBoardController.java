@@ -16,9 +16,18 @@ public class GameBoardController {
 
     // Referenz zum GridPane im FXML
     @FXML
+    private GridPane gridPaneMain;
+
+    @FXML
     private GridPane gridPane;
 
-    private int selectedCardsCount;
+    @FXML
+    private Button scoreButton;
+
+    @FXML
+    private Button resetButton;
+
+    private int selectedCardsCount = 0;
     private List<Card> selectedCards = new ArrayList<>();
     private Deck deck;
     private int score;
@@ -29,6 +38,21 @@ public class GameBoardController {
     // Methode, die beim aufrufen des FXML-Files ausgeführt wird
     @FXML
     public void initialize() {
+
+
+        scoreButton.setText("Score: " + score);
+
+        
+        // reset board button hinzufügen
+        resetButton.setText("Reset Board");
+        resetButton.setOnAction(event -> {
+            deck.resetDeck();
+            clearBoard();
+            drawInitialCards();
+            score = 0;
+            scoreButton.setText("Score: " + score);
+        });
+
         deck = new Deck(); // Deck erstellen und mischen
         drawInitialCards();
         score = 0;
@@ -60,8 +84,9 @@ public class GameBoardController {
         Button cardButton = new Button();
         cardButton.setGraphic(imageView); // Bild zum Button hinzufügen
         cardButton.setOnAction(event -> handleCardClick(card,cardButton));
-        card.setButton(cardButton); // Button zur Karte hinzufügen
-        gridPane.add(cardButton, col, row); // Button zum GridPane hinzufügen
+        card.setButton(cardButton);
+
+        gridPane.add(cardButton, col, row);
     }
 
     // Methode, um auf Klicks auf Karten zu reagieren
@@ -81,6 +106,7 @@ public class GameBoardController {
                 // Score erhöhen
                 score++;
                 updateScore();
+                scoreButton.setText("Score: " + score);
 
                 // Karten entfernen
                 for (Card selectedCard : selectedCards) {
