@@ -32,9 +32,6 @@ public class GameBoardController {
     private Deck deck;
     private int score;
 
-    Button scoreButton = new Button();
-    Button resetButton = new Button();
-
     // Methode, die beim aufrufen des FXML-Files ausgeführt wird
     @FXML
     public void initialize() {
