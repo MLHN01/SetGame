@@ -12,33 +12,49 @@ import com.setgame.setgame.Card;
 import com.setgame.setgame.Deck;
 import com.setgame.setgame.util.SetGameUtils;
 
+// Controller-Klasse für das GameBoard.fxml
 public class GameBoardController {
 
     // Referenz zum GridPane im FXML
     @FXML
     private GridPane gridPaneMain;
 
+    // Referenz zur gridPane, welche die Karten enthält
     @FXML
     private GridPane gridPane;
 
+    // Referenz zum Score Button im FXML
     @FXML
     private Button scoreButton;
 
+    // Referenz zum Reset Button im FXML
     @FXML
     private Button resetButton;
 
+    // Anzahl der ausgewählten Karten
     private int selectedCardsCount = 0;
+
+    // Liste der ausgewählten Karten
     private List<Card> selectedCards = new ArrayList<>();
+
+    // Deck, das die Karten enthält
     private Deck deck;
+
+    // Score des Spielers
     private int score;
 
     // Methode, die beim aufrufen des FXML-Files ausgeführt wird
     @FXML
     public void initialize() {
 
-
+        deck = new Deck(); // Deck erstellen und mischen
+        drawInitialCards();
+        score = 0;
+        selectedCardsCount = 0;
+        
+        // score feld auf die gridpane hinzufügen
         scoreButton.setText("Score: " + score);
-
+        gridPane.add(scoreButton, 3, 0);
         
         // reset board button hinzufügen
         resetButton.setText("Reset Board");
@@ -49,14 +65,6 @@ public class GameBoardController {
             score = 0;
             scoreButton.setText("Score: " + score);
         });
-
-        deck = new Deck(); // Deck erstellen und mischen
-        drawInitialCards();
-        score = 0;
-        selectedCardsCount = 0;
-        // score feld auf die gridpane hinzufügen
-        scoreButton.setText("Score: " + score);
-        gridPane.add(scoreButton, 3, 0);
 
         // reset board button hinzufügen
         resetButton.setText("Reset Board");

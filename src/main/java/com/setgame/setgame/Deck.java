@@ -31,6 +31,8 @@ public class Deck {
     // Methode, die das Deck zurücksetzt
     public void resetDeck(){
         cards.clear();
+        
+        // Erstellt alle möglichen Karten und fügt sie dem Deck hinzu
         for (CardColor color : CardColor.values()) {
             for (CardShape shape : CardShape.values()) {
                 for (CardFilling filling : CardFilling.values()) {
@@ -40,6 +42,7 @@ public class Deck {
                 }
             }
         }
+        // Mischen der Karten
         Collections.shuffle(cards);
     }
 
