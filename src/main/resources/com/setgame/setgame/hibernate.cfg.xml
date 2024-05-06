@@ -5,8 +5,8 @@
         <!-- Database connection settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/yourdatabase</property>
-        <property name="hibernate.connection.username">yourusername</property>
-        <property name="hibernate.connection.password">yourpassword</property>
+        <property name="hibernate.connection.username">username</property>
+        <property name="hibernate.connection.password">password</property>
 
         <!-- JDBC connection pool -->
         <property name="hibernate.connection.pool_size">10</property>

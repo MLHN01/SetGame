@@ -12,51 +12,32 @@ import com.setgame.setgame.Card;
 import com.setgame.setgame.Deck;
 import com.setgame.setgame.util.SetGameUtils;
 
-// Controller-Klasse für das GameBoard.fxml
 public class GameBoardController {
 
-    // Referenz zum GridPane im FXML
     @FXML
     private GridPane gridPaneMain;
 
-    // Referenz zur gridPane, welche die Karten enthält
     @FXML
     private GridPane gridPane;
 
-    // Referenz zum Score Button im FXML
     @FXML
     private Button scoreButton;
 
-    // Referenz zum Reset Button im FXML
     @FXML
     private Button resetButton;
 
-    // Anzahl der ausgewählten Karten
     private int selectedCardsCount = 0;
-
-    // Liste der ausgewählten Karten
     private List<Card> selectedCards = new ArrayList<>();
-
-    // Deck, das die Karten enthält
     private Deck deck;
+    private int score = 0;
 
-    // Score des Spielers
-    private int score;
-
-    // Methode, die beim aufrufen des FXML-Files ausgeführt wird
     @FXML
     public void initialize() {
-
-        deck = new Deck(); // Deck erstellen und mischen
-        drawInitialCards();
-        score = 0;
-        selectedCardsCount = 0;
         
-        // score feld auf die gridpane hinzufügen
+        // score button
         scoreButton.setText("Score: " + score);
-        gridPane.add(scoreButton, 3, 0);
-        
-        // reset board button hinzufügen
+
+        // reset board button action
         resetButton.setText("Reset Board");
         resetButton.setOnAction(event -> {
             deck.resetDeck();
@@ -66,14 +47,8 @@ public class GameBoardController {
             scoreButton.setText("Score: " + score);
         });
 
-        // reset board button hinzufügen
-        resetButton.setText("Reset Board");
-        resetButton.setOnAction(event -> {
-            clearBoard();
-            initialize();
-        });
-
-        gridPane.add(resetButton, 3, 1);
+        deck = new Deck(); // Deck erstellen und mischen
+        drawInitialCards();
     }
 
     // Methode, um eine Karte auf das Spielfeld zu zeichnen
@@ -85,7 +60,6 @@ public class GameBoardController {
         imageView.setFitWidth(150); 
         imageView.setFitHeight(98); 
 
-        // Button erstellen und Bild hinzufügen
         Button cardButton = new Button();
         cardButton.setGraphic(imageView); // Bild zum Button hinzufügen
         cardButton.setOnAction(event -> handleCardClick(card,cardButton));
@@ -96,21 +70,17 @@ public class GameBoardController {
 
     // Methode, um auf Klicks auf Karten zu reagieren
     private void handleCardClick(Card card, Button cardButton) {
-        selectedCardsCount++; // Anzahl der ausgewählten Karten erhöhen
-        cardButton.setDisable(true); // Karte deaktivieren
-        System.out.println(card.toString()); 
-        selectedCards.add(card); // Karte zur Liste der ausgewählten Karten hinzufügen
+        selectedCardsCount++;
+        cardButton.setDisable(true);
+        System.out.println(card.toString());
+        selectedCards.add(card);
 
-        // Wenn 3 Karten ausgewählt wurden, prüfen, ob es ein Set ist
         if (selectedCardsCount == 3) {
-
             if(SetGameUtils.isSet(selectedCards)) {
-
                 System.out.println("Set gefunden!");
                 
                 // Score erhöhen
                 score++;
-                updateScore();
                 scoreButton.setText("Score: " + score);
 
                 // Karten entfernen
@@ -123,11 +93,10 @@ public class GameBoardController {
 
                 int index = 0;
                 for (Card newCard : newCards) {
-                    int row = selectedCards.get(index).getRow(); // Zeile der entfernten Karte
-                    int col = selectedCards.get(index).getCol(); // Spalte der entfernten Karte
+                    int row = selectedCards.get(index).getRow();
+                    int col = selectedCards.get(index).getCol();
                     
-                    // Position der neuen Karte setzen
-                    newCard.setRow(row); 
+                    newCard.setRow(row);
                     newCard.setCol(col);
                     
                     addCardToBoard(newCard, row, col);
@@ -145,7 +114,6 @@ public class GameBoardController {
 
                 }       
             }
-            // Zurücksetzen der ausgewählten Karten
             selectedCardsCount = 0;
             selectedCards.clear();
         }
@@ -153,7 +121,7 @@ public class GameBoardController {
 
     // Methode, um die anfänglichen Karten auf das Spielfeld zu zeichnen
     private void drawInitialCards() {
-        List<Card> cardsOnBoard = deck.drawCards(18);
+        List<Card> cardsOnBoard = deck.drawCards(12);
         int row = 0, col = 0;
         for (Card card : cardsOnBoard) {
             
@@ -169,13 +137,7 @@ public class GameBoardController {
         }
     }
 
-    private void updateScore() {
-        scoreButton.setText("Score: " + score);
-    }
-
-    // Methode welche alle Karten vom Spielfeld
     private void clearBoard() {
         gridPane.getChildren().clear();
-    
     }
 }

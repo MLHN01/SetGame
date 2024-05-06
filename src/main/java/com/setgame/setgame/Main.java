@@ -22,12 +22,11 @@ public class Main extends Application {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        // hier können Sie beispielsweise Testdaten einfügen oder Initialisierungen durchführen
         Score score = new Score();
         score.setPlayerName("Alice");
         score.setScore(100);
 
-        session.save(score);
+        session.persist(score);
         session.getTransaction().commit();
         session.close();
 
