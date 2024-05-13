@@ -31,15 +31,18 @@ public class Deck {
     // Methode, die das Deck zurücksetzt
     public void resetDeck(){
         cards.clear();
+        
+        // Erstellt alle möglichen Karten und fügt sie dem Deck hinzu
         for (CardColor color : CardColor.values()) {
             for (CardShape shape : CardShape.values()) {
                 for (CardFilling filling : CardFilling.values()) {
                     for (CardNumber number : CardNumber.values()) {
-                        cards.add(new Card(color, shape, filling, number));
+                        cards.add(new Card(color, shape, filling, number, "card_" + color + "_" + shape + "_" + filling + "_" + number + ".png"));
                     }
                 }
             }
         }
+        // Mischen der Karten
         Collections.shuffle(cards);
     }
 
