@@ -1,9 +1,5 @@
 package com.setgame.setgame;
 
-import org.hibernate.Session;
-import com.setgame.setgame.db_models.Score;
-import com.setgame.setgame.util.HibernateUtil;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +13,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //FXML-Datei laden
-        Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/ui/GameBoard.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml"));
 
         Scene scene = new Scene(root);
         

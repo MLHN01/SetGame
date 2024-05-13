@@ -10,12 +10,14 @@ module com.setgame.setgame {
     // Öffnen von Paketen für JavaFX
     opens com.setgame.setgame to javafx.fxml, org.hibernate.orm.core;
     opens com.setgame.setgame.ui to javafx.fxml, org.hibernate.orm.core;
+    opens com.setgame.setgame.ui.controller to javafx.fxml;
 
     // Hibernate benötigt Zugriff auf diese Pakete zur Laufzeit für Reflection
     opens com.setgame.setgame.db_models to org.hibernate.orm.core, jakarta.persistence;
 
     exports com.setgame.setgame;
     exports com.setgame.setgame.ui;
+    exports com.setgame.setgame.GameObjects;
     exports com.setgame.setgame.db_models;
 
 }

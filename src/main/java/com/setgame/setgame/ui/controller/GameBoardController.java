@@ -1,4 +1,4 @@
-package com.setgame.setgame.ui;
+package com.setgame.setgame.ui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,11 +12,13 @@ import org.hibernate.Session;
 
 import com.setgame.setgame.GameObjects.Card;
 import com.setgame.setgame.GameObjects.Deck;
+import com.setgame.setgame.ui.CardButtonStyle;
 import com.setgame.setgame.util.HibernateUtil;
 import com.setgame.setgame.util.SetGameUtils;
 
 public class GameBoardController {
 
+    // FXML-Elemente
     @FXML
     private GridPane gridPaneMain;
     @FXML
