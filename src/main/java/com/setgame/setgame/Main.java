@@ -16,18 +16,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        // Hibernate Session öffnen
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        // Testdaten auslesen und ausgeben
-        Score scoreFromDb = session.get(Score.class, 1);
-
-        if(scoreFromDb!= null){
-            System.out.println("Score: " + scoreFromDb.getScore() + " Player: " + scoreFromDb.getPlayerName());
-        }
-
-
-        
         //FXML-Datei laden
         Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/ui/GameBoard.fxml"));
 

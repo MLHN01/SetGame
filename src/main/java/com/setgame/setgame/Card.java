@@ -28,6 +28,17 @@ public class Card {
     // Gibt den Button an, der die Karte repräsentiert
     private Button button;
 
+    // Gibt an, ob die Karte ausgewählt ist
+    private boolean isSelected = false;
+
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
 
     public Card(CardColor color, CardShape shape, CardFilling filling, CardNumber number, String imageFileName) {
         this.color = color;

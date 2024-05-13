@@ -8,8 +8,11 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.setgame.setgame.Card;
 import com.setgame.setgame.Deck;
+import com.setgame.setgame.util.HibernateUtil;
 import com.setgame.setgame.util.SetGameUtils;
 
 public class GameBoardController {
@@ -30,6 +33,9 @@ public class GameBoardController {
     private List<Card> selectedCards = new ArrayList<>();
     private Deck deck;
     private int score = 0;
+
+    // Hibernate Session öffnen
+    Session session = HibernateUtil.getSessionFactory().openSession();
 
     @FXML
     public void initialize() {
@@ -63,6 +69,7 @@ public class GameBoardController {
         Button cardButton = new Button();
         cardButton.setGraphic(imageView); // Bild zum Button hinzufügen
         cardButton.setOnAction(event -> handleCardClick(card,cardButton));
+        cardButton.setStyle("-fx-border-color: black; -fx-border-width: 3px;");
         card.setButton(cardButton);
 
         gridPane.add(cardButton, col, row);
@@ -70,8 +77,20 @@ public class GameBoardController {
 
     // Methode, um auf Klicks auf Karten zu reagieren
     private void handleCardClick(Card card, Button cardButton) {
+
+        if(card.isSelected()){
+            cardButton.setStyle("-fx-border-color: black; -fx-border-width: 3px;");
+            card.setSelected(false);
+            selectedCards.remove(card);
+            selectedCardsCount--;
+            return;
+        }
+
         selectedCardsCount++;
-        cardButton.setDisable(true);
+
+        card.setSelected(true);
+        cardButton.setStyle("-fx-border-color: red; -fx-border-width: 3px;");
+
         System.out.println(card.toString());
         selectedCards.add(card);
 
@@ -110,7 +129,9 @@ public class GameBoardController {
 
                 // Karten wieder aktivieren
                 for(Card selectedCard : selectedCards){
-                    selectedCard.getButton().setDisable(false);
+
+                    selectedCard.getButton().setStyle("-fx-border-color: black; -fx-border-width: 3px;");
+                    selectedCard.setSelected(false);
 
                 }       
             }
