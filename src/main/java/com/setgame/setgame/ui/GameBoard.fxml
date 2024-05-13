@@ -15,5 +15,7 @@
 
     <Button fx:id="scoreButton" layoutX="50" layoutY="50" GridPane.rowIndex="1" />
 
+    <Button fx:id="showSetButton" layoutX="50" layoutY="50" GridPane.rowIndex="1"    />
+
 
 </GridPane>

@@ -91,6 +91,6 @@ public class SetGameUtils {
                 }
             }
         }
-        return List.of();
+        return null;
     }
 }

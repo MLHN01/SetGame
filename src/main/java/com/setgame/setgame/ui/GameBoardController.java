@@ -19,27 +19,32 @@ public class GameBoardController {
 
     @FXML
     private GridPane gridPaneMain;
-
     @FXML
     private GridPane gridPane;
-
     @FXML
     private Button scoreButton;
-
     @FXML
     private Button resetButton;
+    @FXML
+    private Button showSetButton;
 
-    private int selectedCardsCount = 0;
+    // Liste, die die Karten auf dem Spielfeld enthält
+    private List<Card> cardsOnBoard = new ArrayList<>();
+
+    // Liste, die die ausgewählten Karten enthält
     private List<Card> selectedCards = new ArrayList<>();
+    private int selectedCardsCount = 0;
+
+    // Deck, das die Karten enthält
     private Deck deck;
+
+    // Score
     private int score = 0;
 
     // Hibernate Session öffnen
     Session session = HibernateUtil.getSessionFactory().openSession();
 
-    // Liste, die die Karten auf dem Spielfeld enthält
-    List<Card> cardsOnBoard = new ArrayList<>();
-
+    // Methode, die beim Start des Spiels aufgerufen wird
     @FXML
     public void initialize() {
         
@@ -49,11 +54,17 @@ public class GameBoardController {
         // reset board button action
         resetButton.setText("Reset Board");
         resetButton.setOnAction(event -> {
-            deck.resetDeck();
             clearBoard();
+            deck.resetDeck();
             drawInitialCards();
             score = 0;
             scoreButton.setText("Score: " + score);
+        });
+
+        // show set button action
+        showSetButton.setText("Show Set");
+        showSetButton.setOnAction(event -> {
+            showSetOnBoard();
         });
 
         deck = new Deck(); // Deck erstellen und mischen
@@ -111,6 +122,7 @@ public class GameBoardController {
                 // Karten entfernen
                 for (Card selectedCard : selectedCards) {
                     gridPane.getChildren().remove(selectedCard.getButton());
+                    cardsOnBoard.remove(selectedCard);
                 }
 
                 // Neue Karten hinzufügen
@@ -125,6 +137,7 @@ public class GameBoardController {
                     newCard.setCol(col);
                     
                     addCardToBoard(newCard, row, col);
+
                     
                     index++;
                 }
@@ -166,6 +179,11 @@ public class GameBoardController {
     // Methode, um ein Set auf dem Spielfeld zu markieren
     public void showSetOnBoard() {
         List<Card> set = SetGameUtils.findSet(cardsOnBoard);
+        if(set == null){
+            System.out.println("Kein Set gefunden!");
+            return;
+        }
+
         for (Card card : set) {
             card.getButton().setStyle(CardButtonStyle.Highlighted);
         }
@@ -173,5 +191,6 @@ public class GameBoardController {
 
     private void clearBoard() {
         gridPane.getChildren().clear();
+        cardsOnBoard.clear();
     }
 }
