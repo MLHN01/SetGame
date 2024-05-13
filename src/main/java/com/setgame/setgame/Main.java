@@ -22,6 +22,10 @@ public class Main extends Application {
         // Hibernate Session öffnen
         Session session = HibernateUtil.getSessionFactory().openSession();
 
+        // Testdaten auslesen und ausgeben
+        Score scoreFromDb = session.get(Score.class, 1);
+        System.out.println("Score: " + scoreFromDb.getScore() + " Player: " + scoreFromDb.getPlayerName());
+
         
         //FXML-Datei laden
         Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/ui/GameBoard.fxml"));
@@ -31,11 +35,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Set Game Board");
         primaryStage.show();
-
-
-
-
-
 
     }
 
