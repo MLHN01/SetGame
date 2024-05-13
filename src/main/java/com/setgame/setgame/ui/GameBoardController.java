@@ -37,6 +37,9 @@ public class GameBoardController {
     // Hibernate Session öffnen
     Session session = HibernateUtil.getSessionFactory().openSession();
 
+    // Liste, die die Karten auf dem Spielfeld enthält
+    List<Card> cardsOnBoard = new ArrayList<>();
+
     @FXML
     public void initialize() {
         
@@ -69,8 +72,11 @@ public class GameBoardController {
         Button cardButton = new Button();
         cardButton.setGraphic(imageView); // Bild zum Button hinzufügen
         cardButton.setOnAction(event -> handleCardClick(card,cardButton));
-        cardButton.setStyle("-fx-border-color: black; -fx-border-width: 3px;");
+        cardButton.setStyle(CardButtonStyle.NotSelected);
+        
         card.setButton(cardButton);
+
+        cardsOnBoard.add(card);
 
         gridPane.add(cardButton, col, row);
     }
@@ -79,7 +85,7 @@ public class GameBoardController {
     private void handleCardClick(Card card, Button cardButton) {
 
         if(card.isSelected()){
-            cardButton.setStyle("-fx-border-color: black; -fx-border-width: 3px;");
+            cardButton.setStyle(CardButtonStyle.NotSelected);
             card.setSelected(false);
             selectedCards.remove(card);
             selectedCardsCount--;
@@ -89,7 +95,7 @@ public class GameBoardController {
         selectedCardsCount++;
 
         card.setSelected(true);
-        cardButton.setStyle("-fx-border-color: red; -fx-border-width: 3px;");
+        cardButton.setStyle(CardButtonStyle.Selected);
 
         System.out.println(card.toString());
         selectedCards.add(card);
@@ -123,14 +129,13 @@ public class GameBoardController {
                     index++;
                 }
 
-
             } else {
                 System.out.println("Kein Set gefunden!");
 
                 // Karten wieder aktivieren
                 for(Card selectedCard : selectedCards){
 
-                    selectedCard.getButton().setStyle("-fx-border-color: black; -fx-border-width: 3px;");
+                    selectedCard.getButton().setStyle(CardButtonStyle.NotSelected);
                     selectedCard.setSelected(false);
 
                 }       
@@ -155,6 +160,14 @@ public class GameBoardController {
                 col = 0;
                 row++;
             }
+        }
+    }
+
+    // Methode, um ein Set auf dem Spielfeld zu markieren
+    public void showSetOnBoard() {
+        List<Card> set = SetGameUtils.findSet(cardsOnBoard);
+        for (Card card : set) {
+            card.getButton().setStyle(CardButtonStyle.Highlighted);
         }
     }
 

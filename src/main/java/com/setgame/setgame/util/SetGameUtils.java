@@ -77,4 +77,20 @@ public class SetGameUtils {
         boolean allDifferent = cards.stream().distinct().count() == 3;
         return allSame || allDifferent;
     }
+
+
+    // Findet ein gültiges Set in einer Liste von Karten.
+    public static List<Card> findSet(List<Card> cards) {
+        for (int i = 0; i < cards.size(); i++) {
+            for (int j = i + 1; j < cards.size(); j++) {
+                for (int k = j + 1; k < cards.size(); k++) {
+                    List<Card> set = List.of(cards.get(i), cards.get(j), cards.get(k));
+                    if (isSet(set)) {
+                        return set;
+                    }
+                }
+            }
+        }
+        return List.of();
+    }
 }
