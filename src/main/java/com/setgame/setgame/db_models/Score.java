@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+// Klasse, die ein Score-Objekt repräsentiert
 @Entity
 public class Score {
     @Id

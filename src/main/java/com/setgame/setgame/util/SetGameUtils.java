@@ -2,7 +2,8 @@ package com.setgame.setgame.util;
 
 import java.util.List;
 import java.util.function.Function;
-import com.setgame.setgame.Card;
+
+import com.setgame.setgame.GameObjects.Card;
 import com.setgame.setgame.enums.CardColor;
 import com.setgame.setgame.enums.CardFilling;
 import com.setgame.setgame.enums.CardNumber;

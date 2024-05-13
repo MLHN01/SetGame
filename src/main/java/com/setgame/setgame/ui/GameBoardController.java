@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.setgame.setgame.Card;
-import com.setgame.setgame.Deck;
+import com.setgame.setgame.GameObjects.Card;
+import com.setgame.setgame.GameObjects.Deck;
 import com.setgame.setgame.util.HibernateUtil;
 import com.setgame.setgame.util.SetGameUtils;
 

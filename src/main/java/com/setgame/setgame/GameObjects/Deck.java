@@ -1,4 +1,4 @@
-package com.setgame.setgame;
+package com.setgame.setgame.GameObjects;
 
 import com.setgame.setgame.enums.*;
 import java.util.List;
