@@ -27,8 +27,6 @@ public class SetGameUtils {
 
     /*----------------------------------------------------------------------*/
     // Generische Lösung:
-    // Vorteil: Die Methode ist flexibler und kann für beliebige Eigenschaften verwendet werden.
-    // Nachteil: Komplexer zu verstehen
     /*----------------------------------------------------------------------*/
 
     // Methode zur Überprüfung, ob alle Werte einer Eigenschaft gleich oder verschieden sind.
@@ -46,8 +44,6 @@ public class SetGameUtils {
 
     /*----------------------------------------------------------------------*/
     // Nicht generische Lösung:
-    // Vorteil: Einfacher zu verstehen
-    // Nachteil: Wiederholung von Code
     /*----------------------------------------------------------------------*/
 
     // Überprüft, ob alle Karten die gleiche Farbe haben oder alle verschiedene Farben.
