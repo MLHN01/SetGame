@@ -46,6 +46,12 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
+    // Methode, die Karten zurück ins Deck legt
+    public void returnCards(List<Card> cardsToReturn) {
+        cards.addAll(cardsToReturn);
+        Collections.shuffle(cards);
+    }
+
     // Methode, die prüft, ob das Deck leer ist
     public boolean isEmpty() {
         return cards.isEmpty();

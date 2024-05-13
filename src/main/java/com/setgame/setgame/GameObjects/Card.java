@@ -40,6 +40,11 @@ public class Card {
         this.isSelected = isSelected;
     }
 
+
+    public String cardImagePath() {
+        return "/com/setgame/setgame/CardImages/" + this.getImageFileName();
+    }
+
     public Card(CardColor color, CardShape shape, CardFilling filling, CardNumber number, String imageFileName) {
         this.color = color;
         this.shape = shape;
