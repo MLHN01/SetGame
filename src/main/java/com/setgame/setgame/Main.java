@@ -1,7 +1,6 @@
 package com.setgame.setgame;
 
 import org.hibernate.Session;
-import com.setgame.setgame.*;
 import com.setgame.setgame.db_models.Score;
 import com.setgame.setgame.util.HibernateUtil;
 
@@ -17,14 +16,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        //UI starten
-
         // Hibernate Session öffnen
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         // Testdaten auslesen und ausgeben
         Score scoreFromDb = session.get(Score.class, 1);
-        System.out.println("Score: " + scoreFromDb.getScore() + " Player: " + scoreFromDb.getPlayerName());
+
+        if(scoreFromDb!= null){
+            System.out.println("Score: " + scoreFromDb.getScore() + " Player: " + scoreFromDb.getPlayerName());
+        }
+
 
         
         //FXML-Datei laden
