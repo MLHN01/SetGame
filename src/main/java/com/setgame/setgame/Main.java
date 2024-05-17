@@ -13,7 +13,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //FXML-Datei laden
-        Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/ScoreBoard.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/SetGame.fxml"));
+
 
         Scene scene = new Scene(root);
         

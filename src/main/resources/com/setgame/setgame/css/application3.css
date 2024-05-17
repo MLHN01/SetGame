@@ -1,0 +1,26 @@
+/* CSS Styles */
+.root {
+    -fx-background-color: #111111;
+}
+
+.label {
+    -fx-font-size: 60;
+    -fx-font-family: "DejaVu Sans Condensed Bold";
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+#textTitle {
+    -fx-font-size: 60;
+    -fx-alignment: center;
+}
+.black-button {
+    -fx-background-color: transparent; /* Set background color to transparent */
+    -fx-text-fill: white;
+    -fx-font-size: 40;
+    -fx-font-weight: bold;
+    -fx-font-family: "-fx-alignment: center";
+    -fx-alignment: center;
+}
+

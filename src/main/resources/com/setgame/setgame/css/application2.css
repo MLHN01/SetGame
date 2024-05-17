@@ -1,0 +1,58 @@
+/* CSS Styles */
+/* CSS Styles */
+.root {
+    -fx-background-color: #111111;
+}
+
+.label {
+    -fx-font-size: 20;
+    -fx-font-family: "DejaVu Sans Condensed Bold";
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.table-view .table-cell {
+    -fx-background-color: transparent; /* Make the background of the table cells transparent */
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+
+}
+.table-row-cell {
+    -fx-background-color: transparent; /* Make the background of the table rows transparent */
+
+}
+.table-view .scroll-bar:horizontal,
+.table-view .scroll-bar:vertical {
+    -fx-opacity: 0; /* Hide the scroll bars */
+    -fx-background-color: transparent; /* Make the scroll bars transparent */
+}
+#textTitle {
+    -fx-font-size: 80;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+/* Black Button Style */
+.black-button {
+    -fx-background-color: transparent; /* Set background color to transparent */
+    -fx-text-fill: white;
+    -fx-font-size: 40;
+    -fx-font-weight: bold;
+    -fx-font-family: "-fx-alignment: center";
+    -fx-alignment: center;
+}

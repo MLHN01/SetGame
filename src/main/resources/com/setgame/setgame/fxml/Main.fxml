@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="790.0" maxWidth="1540.0" minHeight="790.0" minWidth="1540.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <ImageView fitHeight="790.0" fitWidth="1540.0">
+      <image>
+         <Image url="@background.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="176.0" fitWidth="116.0" layoutX="711.0" layoutY="241.0">
+      <image>
+         <Image url="@BacksideCard.png" />
+      </image>
+      <effect>
+         <InnerShadow radius="68.5" width="255.0" />
+      </effect>
+   </ImageView>
+   <Button layoutX="637.0" layoutY="450.0" mnemonicParsing="false" styleClass="black-button" text="START" textFill="#fff9f9">
+      <font>
+         <Font name="DejaVu Sans Condensed Bold" size="16.0" />
+      </font>
+      <effect>
+         <Glow level="0.72" />
+      </effect>
+   </Button>
+   <Button layoutX="522.0" layoutY="550.0" mnemonicParsing="false" styleClass="black-button" text="SCORE BOARD" textFill="#fff9f9">
+      <font>
+         <Font name="DejaVu Sans Condensed Bold" size="16.0" />
+      </font>
+      <effect>
+         <Glow level="0.72" />
+      </effect>
+   </Button>
+   <Button layoutX="666.0" layoutY="650.0" mnemonicParsing="false" styleClass="black-button" text="EXIT" textFill="#fff9f9">
+      <font>
+         <Font name="DejaVu Sans Condensed Bold" size="16.0" />
+      </font>
+      <effect>
+         <Glow level="0.72" />
+      </effect>
+   </Button>
+   <Label layoutX="478.0" layoutY="30.0" text="SET GAME" textFill="WHITE">
+      <font>
+         <Font name="DejaVu Sans Condensed Bold" size="40.0" />
+      </font>
+      <effect>
+         <Glow level="0.72" />
+      </effect></Label>
+   <ImageView fitHeight="176.0" fitWidth="116.0" layoutX="872.0" layoutY="241.0">
+      <image>
+         <Image url="@BacksideCard.png" />
+      </image>
+      <effect>
+         <InnerShadow radius="68.5" width="255.0" />
+      </effect>
+   </ImageView>
+   <ImageView fitHeight="176.0" fitWidth="116.0" layoutX="550.0" layoutY="241.0">
+      <image>
+         <Image url="@BacksideCard.png" />
+      </image>
+      <effect>
+         <InnerShadow height="138.0" radius="97.75" width="255.0" />
+      </effect>
+   </ImageView>
+</AnchorPane>
