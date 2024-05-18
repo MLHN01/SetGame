@@ -1,4 +1,5 @@
 module com.setgame.setgame {
+    requires java.naming;
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
@@ -11,6 +12,7 @@ module com.setgame.setgame {
     opens com.setgame.setgame to javafx.fxml, org.hibernate.orm.core;
     opens com.setgame.setgame.ui to javafx.fxml, org.hibernate.orm.core;
     opens com.setgame.setgame.ui.controller to javafx.fxml;
+    opens com.setgame.setgame.util to org.hibernate.orm.core;
 
     // Hibernate benötigt Zugriff auf diese Pakete zur Laufzeit für Reflection
     opens com.setgame.setgame.db_models to org.hibernate.orm.core, jakarta.persistence;
@@ -19,5 +21,7 @@ module com.setgame.setgame {
     exports com.setgame.setgame.ui;
     exports com.setgame.setgame.GameObjects;
     exports com.setgame.setgame.db_models;
+    exports com.setgame.setgame.ui.controller;
+    exports com.setgame.setgame.util;
 
 }

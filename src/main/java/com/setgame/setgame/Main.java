@@ -1,5 +1,7 @@
 package com.setgame.setgame;
 
+import com.setgame.setgame.util.HibernateUtil;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +13,8 @@ public class Main extends Application {
     // Programmeinstieg für JavaFX
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        var session = HibernateUtil.getSessionFactory().openSession();
 
         //FXML-Datei laden
         //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml"));

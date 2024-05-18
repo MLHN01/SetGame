@@ -9,7 +9,7 @@ public class HibernateUtil {
 
     private static SessionFactory buildSessionFactory() {
         try {
-            return new Configuration().configure(new File("C:\\Users\\miche\\OneDrive\\Dokumente\\Repos\\SetGame\\SetGame\\src\\main\\resources\\com\\setgame\\setgame\\hibernate.cfg.xml")).buildSessionFactory();
+            return new Configuration().configure("/com/setgame/setgame/hibernate.cfg.xml").buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
