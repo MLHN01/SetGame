@@ -2,6 +2,7 @@ package com.setgame.setgame.ui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -20,7 +21,9 @@ public class SGController {
     @FXML
     private GridPane gridPane;
     @FXML
-    private Button scoreButton, resetButton, showSetButton;
+    private Button resetButton, showSetButton;
+    @FXML
+    private Label scoreButton;
     private List<Card> cardsOnBoard = new ArrayList<>();
     private List<Card> selectedCards = new ArrayList<>();
     private Deck deck;
@@ -36,11 +39,11 @@ public class SGController {
     }
 
     private void updateScoreButton() {
-        scoreButton.setText("Score: " + score);
+        scoreButton.setText("" + score);
     }
 
     private void configureResetButton() {
-        resetButton.setText("Reset Board");
+        resetButton.setText("Reset");
         resetButton.setOnAction(event -> resetGame());
     }
 
