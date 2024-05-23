@@ -9,15 +9,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="790.0" maxWidth="1540.0" minHeight="790.0" minWidth="1540.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="790.0" maxWidth="1540.0" minHeight="790.0" minWidth="1540.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.setgame.setgame.ui.controller.StartMenuController">
    <ImageView fitHeight="790.0" fitWidth="1540.0">
       <image>
-         <Image url="@background.png" />
+         <Image url="@../images/background.png" />
       </image>
    </ImageView>
    <ImageView fitHeight="176.0" fitWidth="116.0" layoutX="711.0" layoutY="241.0">
       <image>
-         <Image url="@BacksideCard.png" />
+         <Image url="@../images/BacksideCard.png" />
       </image>
       <effect>
          <InnerShadow radius="68.5" width="255.0" />
@@ -56,7 +56,7 @@
       </effect></Label>
    <ImageView fitHeight="176.0" fitWidth="116.0" layoutX="872.0" layoutY="241.0">
       <image>
-         <Image url="@BacksideCard.png" />
+         <Image url="@../images/BacksideCard.png" />
       </image>
       <effect>
          <InnerShadow radius="68.5" width="255.0" />
@@ -64,7 +64,7 @@
    </ImageView>
    <ImageView fitHeight="176.0" fitWidth="116.0" layoutX="550.0" layoutY="241.0">
       <image>
-         <Image url="@BacksideCard.png" />
+         <Image url="@../images/BacksideCard.png" />
       </image>
       <effect>
          <InnerShadow height="138.0" radius="97.75" width="255.0" />

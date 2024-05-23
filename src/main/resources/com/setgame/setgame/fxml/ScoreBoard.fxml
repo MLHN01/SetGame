@@ -9,10 +9,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="790.0" maxWidth="1540.0" minHeight="790.0" minWidth="1540.0" stylesheets="@application2.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fxmlsg.Controller">
+<AnchorPane maxHeight="790.0" maxWidth="1540.0" minHeight="790.0" minWidth="1540.0" stylesheets="@../css/application2.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.setgame.setgame.ui.controller.ScoreBoardController">
     <ImageView fitHeight="790.0" fitWidth="1540.0">
         <image>
-            <Image url="@background.png" />
+            <Image url="@../images/background.png" />
         </image>
     </ImageView>
     <Label id="textTitle" layoutX="468.0" text="SCORE BOARD">
