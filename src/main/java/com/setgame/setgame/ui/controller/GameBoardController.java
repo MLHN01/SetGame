@@ -1,23 +1,37 @@
 package com.setgame.setgame.ui.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.setgame.setgame.GameObjects.Card;
 import com.setgame.setgame.GameObjects.Deck;
 import com.setgame.setgame.ui.CardButtonStyle;
 import com.setgame.setgame.util.SetGameUtils;
+import javafx.stage.Stage;
 
 public class GameBoardController {
 
     @FXML
-    private GridPane gridPaneMain, gridPane;
+    private AnchorPane anchorPane;
     @FXML
-    private Button scoreButton, resetButton, showSetButton;
+    private GridPane gridPane;
+    @FXML
+    private Button resetButton, showSetButton;
+    @FXML
+    private Label scoreButton;
+    @FXML
+    private Button backButton;
     private List<Card> cardsOnBoard = new ArrayList<>();
     private List<Card> selectedCards = new ArrayList<>();
     private Deck deck;
@@ -27,17 +41,34 @@ public class GameBoardController {
     public void initialize() {
         updateScoreButton();
         configureResetButton();
+        configureBackButton();
         configureShowSetButton();
         deck = new Deck();
         drawInitialCards();
     }
 
     private void updateScoreButton() {
-        scoreButton.setText("Score: " + score);
+        scoreButton.setText("" + score);
+    }
+
+    private void configureBackButton() {
+        backButton.setText("Back");
+        backButton.setOnAction(event -> {
+            try {
+                // Laden der Hauptspiel-Szene
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/setgame/setgame/fxml/StartMenu.fxml")); // Pfad zur FXML der Spielszene
+                Parent root = loader.load();
+                Stage stage = (Stage) backButton.getScene().getWindow(); // Bühne vom Start-Button holen
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void configureResetButton() {
-        resetButton.setText("Reset Board");
+        resetButton.setText("Reset");
         resetButton.setOnAction(event -> resetGame());
     }
 
@@ -70,9 +101,12 @@ public class GameBoardController {
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(150);
         imageView.setFitHeight(98);
+
         Button cardButton = new Button("", imageView);
         cardButton.setOnAction(event -> handleCardClick(card));
+        // add systel with thick border
         cardButton.setStyle(CardButtonStyle.NotSelected);
+        
         card.setButton(cardButton);
         return cardButton;
     }

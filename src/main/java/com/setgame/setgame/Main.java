@@ -14,25 +14,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        var session = HibernateUtil.getSessionFactory().openSession();
-
-
-
-        // gibt den ersten score aus der Datenbank aus
-        Score score = session.get(Score.class, 1L);
-
-        if(score != null){
-            System.out.println(score.getPlayerName() + " " + score.getScore());
-        }else{
-            System.out.println("Score not found");
-        }
+        //var session = HibernateUtil.getSessionFactory().openSession();
 
 
         //FXML-Datei laden
-        //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml"));
         //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/ScoreBoard.fxml"));
-        //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/StartMenu.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/SetGame.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/StartMenu.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml"));
 
 
         Scene scene = new Scene(root);

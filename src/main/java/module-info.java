@@ -15,7 +15,6 @@ module com.setgame.setgame {
     opens com.setgame.setgame.util to org.hibernate.orm.core;
 
     // Hibernate benötigt Zugriff auf diese Pakete zur Laufzeit für Reflection
-    opens com.setgame.setgame.db_models to org.hibernate.orm.core, jakarta.persistence;
 
     exports com.setgame.setgame;
     exports com.setgame.setgame.ui;
@@ -23,5 +22,6 @@ module com.setgame.setgame {
     exports com.setgame.setgame.db_models;
     exports com.setgame.setgame.ui.controller;
     exports com.setgame.setgame.util;
+    opens com.setgame.setgame.db_models to jakarta.persistence, javafx.fxml, org.hibernate.orm.core;
 
 }
