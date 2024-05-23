@@ -14,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        var session = HibernateUtil.getSessionFactory().openSession();
+        //var session = HibernateUtil.getSessionFactory().openSession();
 
         //FXML-Datei laden
         //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml"));

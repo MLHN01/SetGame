@@ -50,8 +50,8 @@ public class SetGameUtils {
     // Überprüft, ob alle Karten die gleiche Farbe haben oder alle verschiedene Farben.
     private static boolean isAllSameOrDifferentColor(List<Card> cards) {
         CardColor firstColor = cards.get(0).getColor();
-        boolean allSame = cards.stream().allMatch(card -> card.getColor() == firstColor);
-        boolean allDifferent = cards.stream().distinct().count() == 3;
+        boolean allSame = cards.stream().allMatch(card -> card.getColor() == firstColor); // Prüft, ob alle Karten die gleiche Farbe haben.
+        boolean allDifferent = cards.stream().distinct().count() == 3; // Entfernt Duplikate und zählt die Anzahl.
         return allSame || allDifferent;
     }
 

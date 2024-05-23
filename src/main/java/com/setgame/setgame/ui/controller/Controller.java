@@ -14,32 +14,32 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
         @FXML
-        private TableView<ScoreBoarEntries> table;
+        private TableView<ScoreBoardEntries> table;
         @FXML
-        private TableColumn<ScoreBoarEntries, String> Date;
+        private TableColumn<ScoreBoardEntries, String> Date;
 
         @FXML
-        private TableColumn<ScoreBoarEntries, String> Name;
+        private TableColumn<ScoreBoardEntries, String> Name;
 
         @FXML
-        private TableColumn<ScoreBoarEntries,Integer> Rank;
+        private TableColumn<ScoreBoardEntries,Integer> Rank;
 
         @FXML
-        private TableColumn<ScoreBoarEntries,Integer> Score;
+        private TableColumn<ScoreBoardEntries,Integer> Score;
 
-        ObservableList<ScoreBoarEntries> List = FXCollections.observableArrayList(
-                new ScoreBoarEntries(1,28,"3.3.2024","Karl"),
-                new ScoreBoarEntries(2,12,"6.3.2024","Karsten"),
-                new ScoreBoarEntries(3,11,"6.3.2024","Kerstin"),
-                new ScoreBoarEntries(4,4,"15.3.2024","Karla")
+        ObservableList<ScoreBoardEntries> List = FXCollections.observableArrayList(
+                new ScoreBoardEntries(1,28,"3.3.2024","Karl"),
+                new ScoreBoardEntries(2,12,"6.3.2024","Karsten"),
+                new ScoreBoardEntries(3,11,"6.3.2024","Kerstin"),
+                new ScoreBoardEntries(4,4,"15.3.2024","Karla")
         );
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Rank.setCellValueFactory(new PropertyValueFactory<ScoreBoarEntries, Integer>("Rank"));
-        Score.setCellValueFactory(new PropertyValueFactory<ScoreBoarEntries, Integer>("Score"));
-        Date.setCellValueFactory(new PropertyValueFactory<ScoreBoarEntries, String>("Date"));
-        Name.setCellValueFactory(new PropertyValueFactory<ScoreBoarEntries, String>("Name"));
+        Rank.setCellValueFactory(new PropertyValueFactory<ScoreBoardEntries, Integer>("Rank"));
+        Score.setCellValueFactory(new PropertyValueFactory<ScoreBoardEntries, Integer>("Score"));
+        Date.setCellValueFactory(new PropertyValueFactory<ScoreBoardEntries, String>("Date"));
+        Name.setCellValueFactory(new PropertyValueFactory<ScoreBoardEntries, String>("Name"));
 
         table.setItems(List);
 

@@ -1,13 +1,13 @@
 package com.setgame.setgame.ui.controller;
 
-public class ScoreBoarEntries {
+public class ScoreBoardEntries {
     private int Rank;
     private int Score;
     private String Date;
 
     private String Name;
 
-    public ScoreBoarEntries (int Rank,int Score, String Date, String Name)
+    public ScoreBoardEntries (int Rank,int Score, String Date, String Name)
     {
         this.Rank = Rank;
         this.Score = Score;
@@ -25,7 +25,7 @@ public class ScoreBoarEntries {
     public String getDate(){
         return Date;
     }
-public String getName(){
+    public String getName(){
         return Name;
     }
 
