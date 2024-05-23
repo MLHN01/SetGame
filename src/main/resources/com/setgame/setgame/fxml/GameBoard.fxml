@@ -13,10 +13,6 @@
         </image>
     </ImageView>
 
-    <GridPane gridLinesVisible="true" hgap="50" layoutX="570.0" layoutY="-245.0" prefHeight="490" prefWidth="840" style="-fx-background-color: transparent;" vgap="50">
-        <!-- Platzhalter für dynamische Karten -->
-    </GridPane>
-
     <Label fx:id="timerLabel" layoutX="45.0" layoutY="31.0" prefHeight="45.0" prefWidth="149.0" style="-fx-font-size: 30;" text="TIME:" textFill="#E8E8E8">
         <font>
             <Font name="Arial Bold" size="16.0" />
@@ -26,7 +22,7 @@
         </effect>
     </Label>
     
-    <Button fx:id="resetButton" layoutX="68.0" layoutY="306.0" mnemonicParsing="false" styleClass="button" text="Reset">
+    <Button fx:id="resetButton" layoutX="45.0" layoutY="302.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="78.0" styleClass="button" text="Reset">
         <font>
             <Font size="14.0" />
         </font>
@@ -35,7 +31,7 @@
         </effect>
     </Button>
 
-    <Button fx:id="backButton" layoutX="71.0" layoutY="368.0" mnemonicParsing="false" styleClass="button" text="Back">
+    <Button fx:id="backButton" layoutX="17.0" layoutY="736.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="78.0" styleClass="button" text="Back">
         <font>
             <Font size="14.0" />
         </font>
@@ -53,7 +49,7 @@
         </effect>
     </Label>
 
-    <Button fx:id="showSetButton" layoutX="56.0" layoutY="242.0" mnemonicParsing="false" styleClass="button" text="Show Set">
+    <Button fx:id="showSetButton" layoutX="45.0" layoutY="242.0" mnemonicParsing="false" styleClass="button" text="Show Set">
         <font>
             <Font size="14.0" />
         </font>

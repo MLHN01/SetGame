@@ -23,7 +23,7 @@ public class StartMenuController {
     private void handleStart(ActionEvent event) {
         try {
             // Laden der Hauptspiel-Szene
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml")); // Pfad zur FXML der Spielszene
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) startButton.getScene().getWindow(); // Bühne vom Start-Button holen
             stage.setScene(new Scene(root));

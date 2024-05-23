@@ -184,6 +184,13 @@ public class GameBoardController {
             if (!isSetFound) {
                 deck.returnCards(newCards);  // Gebe die gezogenen Karten zurück ins Deck, falls kein Set gefunden wird
             }
+
+            //stellt sicher dass das Programm nicht looped
+            if (deck.isEmpty()) {
+                resetGame();
+                return;
+            }
+
         } while (!isSetFound);  // Wiederhole, bis ein Set gefunden wird
     
         replaceCards(newCards);  // Ersetze die alten Karten durch die neuen Karten auf dem Brett
