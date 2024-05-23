@@ -16,9 +16,16 @@ public class Main extends Application {
 
         var session = HibernateUtil.getSessionFactory().openSession();
 
+
+
         // gibt den ersten score aus der Datenbank aus
-        var score = session.get(Score.class, 1L);
-        System.out.println(score.getPlayerName() + " " + score.getScore());
+        Score score = session.get(Score.class, 1L);
+
+        if(score != null){
+            System.out.println(score.getPlayerName() + " " + score.getScore());
+        }else{
+            System.out.println("Score not found");
+        }
 
 
         //FXML-Datei laden
