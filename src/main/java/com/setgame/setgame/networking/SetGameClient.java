@@ -7,46 +7,64 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class SetGameClient {
-    private static final String SERVER_ADDRESS = "localhost";
-    private static final int SERVER_PORT = 12345;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private boolean connected = false;
 
     public SetGameClient() {
-        try {
-            socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        connectToServer();
+    }
 
-            new Thread(new ServerListener()).start();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void connectToServer() {
+        int attempts = 0;
+        int maxAttempts = 5;
+        while (attempts < maxAttempts && !connected) {
+            try {
+                socket = new Socket("localhost", 12345);
+                out = new PrintWriter(socket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                connected = true;
+            } catch (IOException e) {
+                attempts++;
+                System.out.println("Verbindungsversuch " + attempts + " fehlgeschlagen. Erneut versuchen...");
+                try {
+                    Thread.sleep(2000); // 2 Sekunden warten, bevor erneut versucht wird
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
+            }
         }
+
+        if (!connected) {
+            System.out.println("Maximale Verbindungsversuche erreicht. Verbindung zum Server fehlgeschlagen.");
+        }
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 
     public void sendMessage(String message) {
-        out.println(message);
-    }
-
-    private class ServerListener implements Runnable {
-        @Override
-        public void run() {
-            try {
-                String message;
-                while ((message = in.readLine()) != null) {
-                    System.out.println("Server says: " + message);
-                    // Update the game state based on server message
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (out != null) {
+            out.println(message);
+        } else {
+            System.out.println("Verbindung zum Server ist nicht verfügbar.");
         }
     }
 
-    public static void main(String[] args) {
-        SetGameClient client = new SetGameClient();
-        // Example usage
-        client.sendMessage("Hello, server!");
+    public String receiveMessage() throws IOException {
+        if (in != null) {
+            return in.readLine();
+        }
+        return null;
+    }
+
+    public void startGame() {
+        sendMessage("startGame");
+    }
+
+    public void timeUp() {
+        sendMessage("timeUp");
     }
 }

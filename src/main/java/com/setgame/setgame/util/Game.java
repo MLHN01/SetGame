@@ -1,19 +1,21 @@
 package com.setgame.setgame.util;
 
+import com.google.gson.Gson;
 import com.setgame.setgame.ui.CardButtonStyle;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
+import com.setgame.setgame.GameObjects.Card;
+import com.setgame.setgame.GameObjects.Deck;
+import com.setgame.setgame.networking.SetGameClient;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.setgame.setgame.GameObjects.Card;
-import com.setgame.setgame.GameObjects.Deck;
-
-// Implementiert die Spiellogik
 public class Game {
 
     private GridPane gridPane;
@@ -24,45 +26,62 @@ public class Game {
     private int score = 0;
     private GameTimer gameTimer;
     private int gameTimeInSeconds = 300;
+    private SetGameClient client;
+    private Gson gson = new Gson();
+    private boolean isMultiplayer;
 
+    // Constructor for Singleplayer
     public Game(GridPane gridPane, Label scoreButton, Label timerLabel) {
         this.gridPane = gridPane;
         this.scoreButton = scoreButton;
         this.timerLabel = timerLabel;
     }
 
-    // Startet ein neues Spiel
-    public void startNewGame() {
-        clearBoard(); // Leert das Spielfeld
-        deck = new Deck(); // Erstellt ein neues Deck
-        drawInitialCards(); // Zeichnet die anfänglichen Karten
-        score = 0; // Setzt den Punktestand zurück
-        updateScoreButton(); // Aktualisiert die Punktestand-Anzeige
-        if (gameTimer != null) {
-            gameTimer.stop(); // Stoppt den alten Timer, falls vorhanden
-        }
-        gameTimer = new GameTimer(timerLabel, gameTimeInSeconds, this::handleTimeUp); // Erstellt einen neuen Timer
-        gameTimer.start(); // Startet den Timer
+    // Constructor for Multiplayer
+    public Game(GridPane gridPane, Label scoreButton, Label timerLabel, SetGameClient client) {
+        this(gridPane, scoreButton, timerLabel);
+        this.client = client;
+        this.isMultiplayer = true;
     }
 
-    // Aktualisiert die Punktestand-Anzeige
+    public void startNewGame() {
+        clearBoard();
+        deck = new Deck();
+        drawInitialCards();
+        score = 0;
+        updateScoreButton();
+        if (gameTimer != null) {
+            gameTimer.stop();
+        }
+        gameTimer = new GameTimer(timerLabel, gameTimeInSeconds, this::handleTimeUp);
+        gameTimer.start();
+        if (isMultiplayer) {
+            syncGameState();
+        }
+    }
+
+    public void setGameTime(int gameTime) {
+        this.gameTimeInSeconds = gameTime;
+        if (gameTimer != null) {
+            gameTimer.setTime(gameTimeInSeconds);
+        }
+    }
+
     private void updateScoreButton() {
         scoreButton.setText("" + score);
     }
 
-    // Leert das Spielfeld
     private void clearBoard() {
         gridPane.getChildren().clear();
         cardsOnBoard.clear();
     }
 
-    // Zeichnet die anfänglichen Karten auf das Spielfeld
     private void drawInitialCards() {
         List<Card> initialCards;
         do {
-            deck.resetDeck(); // Setzt das Deck zurück
-            initialCards = deck.drawCards(12); // Zieht 12 Karten
-        } while (SetGameUtils.findSet(initialCards) == null); // Wiederholt, falls kein Set gefunden wird
+            deck.resetDeck();
+            initialCards = deck.drawCards(12);
+        } while (SetGameUtils.findSet(initialCards) == null);
         int row = 0, col = 0;
         for (Card card : initialCards) {
             card.setRow(row);
@@ -73,17 +92,19 @@ public class Game {
                 row++;
             }
         }
+        if (isMultiplayer) {
+            syncGameState();
+        }
     }
 
-    // Fügt eine Karte zum Spielfeld hinzu
     public void addCardToBoard(Card card, int row, int col) {
         Button cardButton = createCardButton(card);
         cardsOnBoard.add(card);
         gridPane.add(cardButton, col, row);
     }
 
-    // Erstellt einen Button für eine Karte
     private Button createCardButton(Card card) {
+        // Add the image and actions here
         Image image = new Image(getClass().getResourceAsStream(card.cardImagePath()));
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(150);
@@ -97,7 +118,6 @@ public class Game {
         return cardButton;
     }
 
-    // Handhabt den Klick auf eine Karte
     private void handleCardClick(Card card) {
         if (card.isSelected()) {
             deselectCard(card);
@@ -109,21 +129,18 @@ public class Game {
         }
     }
 
-    // Deselektiert eine Karte
     private void deselectCard(Card card) {
         card.getButton().setStyle(CardButtonStyle.NotSelected);
         card.setSelected(false);
         selectedCards.remove(card);
     }
 
-    // Selektiert eine Karte
     private void selectCard(Card card) {
         card.setSelected(true);
         card.getButton().setStyle(CardButtonStyle.Selected);
         selectedCards.add(card);
     }
 
-    // Prüft die ausgewählten Karten
     private void processSelectedCards() {
         if (SetGameUtils.isSet(selectedCards)) {
             handleSetFound();
@@ -133,20 +150,20 @@ public class Game {
         selectedCards.clear();
     }
 
-    // Handhabt den Fall, dass ein Set gefunden wurde
     private void handleSetFound() {
         score++;
         updateScoreButton();
         removeSelectedCards();
         refillBoard();
+        if (isMultiplayer) {
+            syncGameState();
+        }
     }
 
-    // Handhabt den Fall, dass kein Set gefunden wurde
     private void handleSetNotFound() {
         new ArrayList<>(selectedCards).forEach(this::deselectCard);
     }
 
-    // Entfernt die ausgewählten Karten vom Spielfeld
     private void removeSelectedCards() {
         selectedCards.forEach(card -> {
             gridPane.getChildren().remove(card.getButton());
@@ -154,32 +171,33 @@ public class Game {
         });
     }
 
-    // Füllt das Spielfeld auf
     private void refillBoard() {
         List<Card> newCards;
         boolean isSetFound;
 
         do {
-            newCards = deck.drawCards(3); // Zieht 3 neue Karten
-            List<Card> potentialBoard = new ArrayList<>(cardsOnBoard); // Kopiert die aktuellen Karten auf dem Spielfeld
-            potentialBoard.addAll(newCards); // Fügt die neuen Karten hinzu
+            newCards = deck.drawCards(3);
+            List<Card> potentialBoard = new ArrayList<>(cardsOnBoard);
+            potentialBoard.addAll(newCards);
 
-            isSetFound = SetGameUtils.findSet(potentialBoard) != null; // Prüft, ob ein Set vorhanden ist
+            isSetFound = SetGameUtils.findSet(potentialBoard) != null;
             if (!isSetFound) {
-                deck.returnCards(newCards); // Gibt die gezogenen Karten zurück ins Deck, falls kein Set gefunden wird
+                deck.returnCards(newCards);
             }
 
             if (deck.isEmpty()) {
-                startNewGame(); // Startet ein neues Spiel, falls das Deck leer ist
+                startNewGame();
                 return;
             }
 
-        } while (!isSetFound); // Wiederholt, bis ein Set gefunden wird
+        } while (!isSetFound);
 
-        replaceCards(newCards); // Ersetzt die alten Karten durch die neuen Karten auf dem Brett
+        replaceCards(newCards);
+        if (isMultiplayer) {
+            syncGameState();
+        }
     }
 
-    // Ersetzt alte Karten durch neue Karten auf dem Spielfeld
     private void replaceCards(List<Card> newCards) {
         for (int i = 0; i < newCards.size(); i++) {
             Card newCard = newCards.get(i);
@@ -190,7 +208,6 @@ public class Game {
         }
     }
 
-    // Hebt ein Set auf dem Spielfeld hervor
     public void highlightSetOnBoard() {
         List<Card> set = SetGameUtils.findSet(cardsOnBoard);
         if (set != null) {
@@ -200,8 +217,40 @@ public class Game {
         }
     }
 
-    // Handhabt den Fall, dass die Zeit abgelaufen ist
+    private void syncGameState() {
+        GameState gameState = new GameState(this.cardsOnBoard);
+        String gameStateJson = gson.toJson(gameState);
+        client.sendMessage(gameStateJson);
+    }
+
+    public void updateGameState(String gameStateJson) {
+        GameState gameState = gson.fromJson(gameStateJson, GameState.class);
+        this.cardsOnBoard.clear();
+        this.cardsOnBoard.addAll(gameState.getCardsOnBoard());
+        Platform.runLater(this::redrawBoard);
+    }
+
+
+    private void redrawBoard() {
+        clearBoard();
+        for (Card card : cardsOnBoard) {
+            card.restoreTransientFields(); // Stellen Sie die transienten Felder wieder her
+            Button cardButton = createCardButton(card);
+            card.setButton(cardButton);
+            if (card.isSelected()) {
+                cardButton.setStyle(CardButtonStyle.Selected);
+            } else {
+                cardButton.setStyle(CardButtonStyle.NotSelected);
+            }
+            addCardToBoard(card, card.getRow(), card.getCol());
+        }
+    }
+
+
     private void handleTimeUp() {
+        if (isMultiplayer) {
+            client.timeUp();
+        }
         System.out.println("Zeit ist um!");
     }
 }

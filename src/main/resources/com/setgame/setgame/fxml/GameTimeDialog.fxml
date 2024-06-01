@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.setgame.setgame.ui.controller.SetGameTimeController">
+    <Label text="Set Game Time (seconds)" />
+    <TextField fx:id="gameTimeField" />
+    <Button fx:id="setTimeButton" text="Set Time" />
+</VBox>

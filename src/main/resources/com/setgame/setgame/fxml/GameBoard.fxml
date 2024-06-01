@@ -58,6 +58,24 @@
         </effect>
     </Button>
 
+    <Button fx:id="setGameTimeButton" layoutX="45.0" layoutY="362.0" mnemonicParsing="false" styleClass="button" text="Set Game Time">
+        <font>
+            <Font size="14.0" />
+        </font>
+        <effect>
+            <DropShadow color="#333333" radius="3.0" />
+        </effect>
+    </Button>
+
+    <Button fx:id="startGameButton" layoutX="45.0" layoutY="422.0" mnemonicParsing="false" styleClass="button" text="Start Game">
+        <font>
+            <Font size="14.0" />
+        </font>
+        <effect>
+            <DropShadow color="#333333" radius="3.0" />
+        </effect>
+    </Button>
+
     <Label layoutX="45.0" layoutY="116.0" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 20;" text="SCORE:" textFill="#E8E8E8">
         <font>
             <Font name="Arial Bold" size="17.0" />
@@ -66,6 +84,16 @@
             <DropShadow color="#666666" radius="5.0" />
         </effect>
     </Label>
+
+    <Label fx:id="gameCodeLabel" layoutX="45.0" layoutY="60.0" prefHeight="45.0" prefWidth="200.0" style="-fx-font-size: 20;" text="Game Code: " textFill="#E8E8E8">
+        <font>
+            <Font name="Arial Bold" size="17.0" />
+        </font>
+        <effect>
+            <DropShadow color="#666666" radius="5.0" />
+        </effect>
+    </Label>
+
     <GridPane fx:id="gridPane" hgap="50" layoutX="724.0" layoutY="155.0" prefHeight="481.0" prefWidth="686.0" style="-fx-background-color: transparent;" vgap="50">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

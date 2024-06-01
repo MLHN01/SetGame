@@ -26,11 +26,10 @@ public class Card {
     private int col;
 
     // Gibt den Button an, der die Karte repräsentiert
-    private Button button;
+    private transient Button button;
 
     // Gibt an, ob die Karte ausgewählt ist
-    private boolean isSelected = false;
-
+    private transient boolean isSelected = false;
 
     public boolean isSelected() {
         return isSelected;
@@ -39,7 +38,6 @@ public class Card {
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
-
 
     public String cardImagePath() {
         return "/com/setgame/setgame/CardImages/" + this.getImageFileName();
@@ -61,7 +59,7 @@ public class Card {
                 ", shape=" + shape +
                 ", filling=" + filling +
                 ", number=" + number +
-                ", imageFileName='" + imageFileName + 
+                ", imageFileName='" + imageFileName + '\'' +
                 '}';
     }
 
@@ -85,7 +83,6 @@ public class Card {
         return imageFileName;
     }
 
-
     public void setRow(int row) {
         this.row = row;
     }
@@ -102,7 +99,6 @@ public class Card {
         return col;
     }
 
-    
     public Button getButton() {
         return button;
     }
@@ -111,4 +107,13 @@ public class Card {
         this.button = button;
     }
 
+    // Methode zur Wiederherstellung des transienten Zustands nach der Deserialisierung
+    public void restoreTransientFields() {
+        this.button = new Button();
+        this.button.setOnAction(event -> {
+            // Beispiel für die Aktion, die ausgeführt werden soll, wenn der Button geklickt wird
+            System.out.println("Button geklickt: " + this);
+        });
+        this.button.setStyle(isSelected ? "-fx-background-color: yellow;" : "-fx-background-color: white;");
+    }
 }

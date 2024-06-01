@@ -3,35 +3,47 @@ package com.setgame.setgame.networking;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SetGameServer {
-    private static final int PORT = 12345;
-    private static Set<ClientHandler> clients = ConcurrentHashMap.newKeySet();
+    private String gameCode;
+    private ServerSocket serverSocket;
+    private final ExecutorService pool = Executors.newFixedThreadPool(10); // Verwenden Sie einen Thread-Pool für mehrere Clients
+
+    public SetGameServer() {
+        // Default constructor
+    }
+
+    public SetGameServer(String gameCode) {
+        this.gameCode = gameCode;
+    }
+
+    public void start() {
+        pool.execute(() -> {
+            try {
+                serverSocket = new ServerSocket(12345);
+                System.out.println("Server started with game code: " + gameCode);
+                while (true) {
+                    Socket clientSocket = serverSocket.accept();
+                    System.out.println("Client connected: " + clientSocket.getInetAddress());
+                    // Handle the client connection
+                    handleClient(clientSocket);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void handleClient(Socket clientSocket) {
+        // Hier die Logik für die Client-Verarbeitung hinzufügen
+        pool.execute(() -> {
+            // Fügen Sie hier den Code für die Verarbeitung von Client-Anfragen hinzu
+        });
+    }
 
     public static void main(String[] args) {
-        System.out.println("Server is running...");
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                ClientHandler clientHandler = new ClientHandler(clientSocket);
-                clients.add(clientHandler);
-                new Thread(clientHandler).start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void broadcast(String message) {
-        for (ClientHandler client : clients) {
-            client.sendMessage(message);
-        }
-    }
-
-    public static void removeClient(ClientHandler clientHandler) {
-        clients.remove(clientHandler);
+        new SetGameServer().start();
     }
 }
-
