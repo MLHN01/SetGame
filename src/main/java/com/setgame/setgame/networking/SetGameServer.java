@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 public class SetGameServer {
     private String gameCode;
     private ServerSocket serverSocket;
-    private final ExecutorService pool = Executors.newFixedThreadPool(10); // Verwenden Sie einen Thread-Pool für mehrere Clients
+    private final ExecutorService pool = Executors.newFixedThreadPool(10); //Thread-Pool für mehrere Clients
 
     public SetGameServer() {
         // Default constructor
@@ -37,9 +37,9 @@ public class SetGameServer {
     }
 
     private void handleClient(Socket clientSocket) {
-        // Hier die Logik für die Client-Verarbeitung hinzufügen
+        // Logik für die Client-Verarbeitung
         pool.execute(() -> {
-            // Fügen Sie hier den Code für die Verarbeitung von Client-Anfragen hinzu
+            // Code für die Verarbeitung von Client-Anfragen
         });
     }
 
