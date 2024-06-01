@@ -1,6 +1,6 @@
 # SetGame
 
-SetGame ist ein Multiplayer-Kartenspiel, bei dem es darum geht, Sets aus Karten mit verschiedenen Attributen zu finden.
+SetGame ist ein Kartenspiel, bei dem es darum geht, Sets aus Karten mit verschiedenen Attributen zu finden.
 
 ## Inhaltsverzeichnis
 
@@ -12,7 +12,7 @@ SetGame ist ein Multiplayer-Kartenspiel, bei dem es darum geht, Sets aus Karten 
 
 ## Über das Projekt
 
-SetGame ist eine Implementierung des bekannten Kartenspiels "Set". In diesem Spiel müssen die Spieler Sets aus drei Karten finden, die bestimmte Bedingungen erfüllen. Das Spiel unterstützt sowohl Einzelspieler- als auch Mehrspielermodi.
+Das ist meine Implementierung des bekannten Kartenspiels "Set". In diesem Spiel müssen die Spieler Sets aus drei Karten finden, die bestimmte Bedingungen erfüllen. Das Spiel unterstützt sowohl Einzelspieler- als auch Mehrspielermodi.
 
 ## Features
 
