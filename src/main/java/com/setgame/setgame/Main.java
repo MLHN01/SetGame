@@ -16,12 +16,8 @@ public class Main extends Application {
 
         //var session = HibernateUtil.getSessionFactory().openSession();
 
-
         //FXML-Datei laden
-        //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/ScoreBoard.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/StartMenu.fxml"));
-        //Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/GameBoard.fxml"));
-
 
         Scene scene = new Scene(root);
         
