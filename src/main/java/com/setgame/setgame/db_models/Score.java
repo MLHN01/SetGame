@@ -1,19 +1,29 @@
 package com.setgame.setgame.db_models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.Date;
 
-// Klasse, die ein Score-Objekt repräsentiert
 @Entity
 public class Score {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String playerName;
+
+    @Column
     private int score;
+
+    @Column
+    private Date date;
+
+    @Transient
+    private int rank;
+
+    public Score() {
+
+    }
 
     // Getter und Setter
     public Long getId() {
@@ -39,5 +49,20 @@ public class Score {
     public void setScore(int score) {
         this.score = score;
     }
-}
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+}

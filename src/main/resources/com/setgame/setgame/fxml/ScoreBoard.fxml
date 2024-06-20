@@ -16,19 +16,19 @@
         </image>
     </ImageView>
     <Label id="textTitle" layoutX="468.0" text="SCORE BOARD">
-      <effect>
-         <Glow level="0.7" />
-      </effect></Label>
+        <effect>
+            <Glow level="0.7" />
+        </effect></Label>
     <Button fx:id="backButton" layoutX="665.0" layoutY="665.0" mnemonicParsing="false" styleClass="black-button" text="BACK">
-      <effect>
-         <Glow level="0.75" />
-      </effect></Button>
+        <effect>
+            <Glow level="0.75" />
+        </effect></Button>
     <TableView fx:id="table" layoutX="364.0" layoutY="135.0" prefHeight="540.0" prefWidth="760.0">
         <columns>
-            <TableColumn fx:id="Rank" prefWidth="190.0" text="Rank" />
-            <TableColumn fx:id="Score" minWidth="190.0" prefWidth="180.0" text="Score" />
-            <TableColumn fx:id="Date" prefWidth="190.0" text="Date" />
-            <TableColumn fx:id="Name" prefWidth="190.0" text="Name" />
+            <TableColumn fx:id="rank" prefWidth="190.0" text="Rank" />
+            <TableColumn fx:id="score" minWidth="190.0" prefWidth="180.0" text="Score" />
+            <TableColumn fx:id="date" prefWidth="190.0" text="Date" />
+            <TableColumn fx:id="playerName" prefWidth="190.0" text="Name" />
         </columns>
     </TableView>
 </AnchorPane>
