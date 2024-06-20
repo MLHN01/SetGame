@@ -30,9 +30,11 @@ public class Main extends Application {
 
     }
 
-
-
     public static void main(String[] args) {
+        launch(args);
+    }
+
+    void openGameServer(String[] args) {
         // Start the server in a new thread
         new Thread(() -> {
             try {
@@ -44,7 +46,7 @@ public class Main extends Application {
 
         // Wait a moment to ensure the server is up
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -58,8 +60,6 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        launch(args);
     }
 }
 
