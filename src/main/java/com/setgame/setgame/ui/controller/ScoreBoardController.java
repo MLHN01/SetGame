@@ -1,6 +1,6 @@
 package com.setgame.setgame.ui.controller;
 
-import com.setgame.setgame.db_models.ScoreBoardEntries;
+import com.setgame.setgame.db_models.Score;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,56 +14,82 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import com.setgame.setgame.util.HibernateUtil;
+
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ScoreBoardController implements Initializable {
-        @FXML
-        private TableView<ScoreBoardEntries> table;
-        @FXML
-        private TableColumn<ScoreBoardEntries, String> Date;
 
-        @FXML
-        private TableColumn<ScoreBoardEntries, String> Name;
+    @FXML
+    private TableView<Score> table;
 
-        @FXML
-        private TableColumn<ScoreBoardEntries,Integer> Rank;
+    @FXML
+    private TableColumn<Score, String> playerName;
 
-        @FXML
-        private TableColumn<ScoreBoardEntries,Integer> Score;
+    @FXML
+    private TableColumn<Score, Integer> rank;
 
-        @FXML
-        private Button backButton;
+    @FXML
+    private TableColumn<Score, Integer> score;
 
-        ObservableList<ScoreBoardEntries> List = FXCollections.observableArrayList(
-                new ScoreBoardEntries(1,28,"3.3.2024","Karl"),
-                new ScoreBoardEntries(2,12,"6.3.2024","Karsten"),
-                new ScoreBoardEntries(3,11,"6.3.2024","Kerstin"),
-                new ScoreBoardEntries(4,4,"15.3.2024","Karla")
-        );
+    @FXML
+    private Button backButton;
+
+    private ObservableList<Score> list = FXCollections.observableArrayList();
+
+    private SessionFactory sessionFactory;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Rank.setCellValueFactory(new PropertyValueFactory<ScoreBoardEntries, Integer>("Rank"));
-        Score.setCellValueFactory(new PropertyValueFactory<ScoreBoardEntries, Integer>("Score"));
-        Date.setCellValueFactory(new PropertyValueFactory<ScoreBoardEntries, String>("Date"));
-        Name.setCellValueFactory(new PropertyValueFactory<ScoreBoardEntries, String>("Name"));
+        rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        score.setCellValueFactory(new PropertyValueFactory<>("score"));
+        playerName.setCellValueFactory(new PropertyValueFactory<>("playerName"));
 
-        table.setItems(List);
+        //Open session factory
+        sessionFactory = HibernateUtil.getSessionFactory();
+
+        loadScoresFromDatabase();
+
+        table.setItems(list);
 
         // configure back button
         backButton.setOnAction(this::handleBack);
+    }
 
-        }
+    // Läd die Scores aus der Datenbank
+    private void loadScoresFromDatabase() {
+        // Retrieve scores from database using Hibernate
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<Score> scores = session.createQuery("FROM Score", Score.class).getResultList();
+        session.getTransaction().commit();
+        session.close();
 
+        // Sort scores and assign ranks
+        List<Score> sortedScores = scores.stream()
+                .sorted((s1, s2) -> Integer.compare(s2.getScore(), s1.getScore()))
+                .collect(Collectors.toList());
 
-    //start
+        IntStream.range(0, sortedScores.size()).forEach(i -> {
+            Score score = sortedScores.get(i);
+            score.setRank(i + 1);
+        });
+
+        list.setAll(sortedScores);
+    }
+
+    // Handle back button click
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            // Laden der Start-Szene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/setgame/setgame/fxml/StartMenu.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) backButton.getScene().getWindow();

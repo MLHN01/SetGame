@@ -31,7 +31,6 @@ public class GameBoardController {
     private Button backButton;
 
     private Game game;
-    private GameTimer gameTimer;
 
     // Initialisierungsmethode, die aufgerufen wird, wenn das FXML geladen wird
     @FXML
@@ -51,6 +50,7 @@ public class GameBoardController {
     private void configureBackButton() {
         backButton.setText("Back");
         backButton.setOnAction(event -> {
+            game.stopTimer();
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/setgame/setgame/fxml/StartMenu.fxml"));
                 Parent root = loader.load();
@@ -61,6 +61,8 @@ public class GameBoardController {
                 e.printStackTrace();
             }
         });
+        // Stoppt den Timer, wenn das Fenster geschlossen wird
+
     }
 
     private void configureShowSetButton() {

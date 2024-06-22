@@ -1,17 +1,23 @@
 package com.setgame.setgame.util;
 
+import com.setgame.setgame.db_models.Score;
 import com.setgame.setgame.ui.CardButtonStyle;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.setgame.setgame.GameObjects.Card;
 import com.setgame.setgame.GameObjects.Deck;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 // Implementiert die Spiellogik
 public class Game {
@@ -23,12 +29,14 @@ public class Game {
     private Deck deck;
     private int score = 0;
     private GameTimer gameTimer;
-    private int gameTimeInSeconds = 300;
+    private int gameTimeInSeconds = 60;
+    private SessionFactory sessionFactory;
 
     public Game(GridPane gridPane, Label scoreButton, Label timerLabel) {
         this.gridPane = gridPane;
         this.scoreButton = scoreButton;
         this.timerLabel = timerLabel;
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     // Startet ein neues Spiel
@@ -202,6 +210,50 @@ public class Game {
 
     // Handhabt den Fall, dass die Zeit abgelaufen ist
     private void handleTimeUp() {
-        System.out.println("Zeit ist um!");
+        Platform.runLater(() -> showNameInputDialog());
+        // deaktiviert die Karten auf dem Spielfeld
+        cardsOnBoard.forEach(card -> card.getButton().setDisable(true));
+    }
+
+    // Zeigt einen Dialog zur Eingabe des Spielernamens
+    private void showNameInputDialog() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Spiel beendet");
+        dialog.setHeaderText("Zeit ist abgelaufen!");
+        dialog.setContentText("Bitte geben Sie Ihren Namen ein:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> saveOrUpdateScore(name, score));
+    }
+
+    // Speichert oder aktualisiert den Punktestand eines Spielers
+    private void saveOrUpdateScore(String playerName, int score) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        List<Score> existingScores = session.createQuery("FROM Score WHERE playerName = :playerName", Score.class)
+                .setParameter("playerName", playerName)
+                .getResultList();
+
+        Score playerScore;
+        if (existingScores.isEmpty()) {
+            playerScore = new Score();
+            playerScore.setPlayerName(playerName);
+        } else {
+            playerScore = existingScores.get(0);
+        }
+
+        playerScore.setScore(score);
+        session.saveOrUpdate(playerScore);
+
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    // stoppt den Timer
+    public void stopTimer() {
+        if (gameTimer != null) {
+            gameTimer.stop();
+        }
     }
 }
