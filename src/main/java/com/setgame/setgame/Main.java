@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        HibernateUtil.getSessionFactory();
+        var factory = HibernateUtil.getSessionFactory();
         //FXML-Datei laden
         Parent root = FXMLLoader.load(getClass().getResource("/com/setgame/setgame/fxml/StartMenu.fxml"));
 

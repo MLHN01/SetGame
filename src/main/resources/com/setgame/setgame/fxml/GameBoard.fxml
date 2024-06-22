@@ -13,7 +13,7 @@
         </image>
     </ImageView>
 
-    <Label fx:id="timerLabel" layoutX="45.0" layoutY="31.0" prefHeight="45.0" prefWidth="200.0" style="-fx-font-size: 30;" text="TIME: 05:00" textFill="#E8E8E8">
+    <Label fx:id="timerLabel" layoutX="45.0" layoutY="31.0" prefHeight="45.0" prefWidth="200.0" style="-fx-font-size: 30;" text="TIME" textFill="#E8E8E8">
         <font>
             <Font name="Arial Bold" size="16.0" />
         </font>

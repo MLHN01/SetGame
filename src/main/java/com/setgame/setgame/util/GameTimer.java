@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import java.util.Timer;
 import java.util.TimerTask;
 
+// Repräsentiert einen Timer für das Spiel
 public class GameTimer {
 
     private Timer timer;
@@ -19,8 +20,10 @@ public class GameTimer {
         this.onTimeUp = onTimeUp;
     }
 
+    // Startet den Timer
     public void start() {
         timer = new Timer(true);
+        // Timer startet sofort und wird alle 1000ms (1 Sekunde) ausgeführt
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

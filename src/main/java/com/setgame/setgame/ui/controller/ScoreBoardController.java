@@ -64,6 +64,7 @@ public class ScoreBoardController implements Initializable {
         backButton.setOnAction(this::handleBack);
     }
 
+    // Läd die Scores aus der Datenbank
     private void loadScoresFromDatabase() {
         // Retrieve scores from database using Hibernate
         Session session = sessionFactory.openSession();
@@ -85,6 +86,7 @@ public class ScoreBoardController implements Initializable {
         list.setAll(sortedScores);
     }
 
+    // Handle back button click
     @FXML
     private void handleBack(ActionEvent event) {
         try {
