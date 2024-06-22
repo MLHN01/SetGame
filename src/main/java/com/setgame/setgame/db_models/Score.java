@@ -15,9 +15,6 @@ public class Score {
     @Column
     private int score;
 
-    @Column
-    private Date date;
-
     @Transient
     private int rank;
 
@@ -48,14 +45,6 @@ public class Score {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public int getRank() {

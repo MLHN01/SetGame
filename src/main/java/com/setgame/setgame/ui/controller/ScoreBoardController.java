@@ -32,9 +32,6 @@ public class ScoreBoardController implements Initializable {
     private TableView<Score> table;
 
     @FXML
-    private TableColumn<Score, String> date;
-
-    @FXML
     private TableColumn<Score, String> playerName;
 
     @FXML
@@ -54,12 +51,10 @@ public class ScoreBoardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
-        date.setCellValueFactory(new PropertyValueFactory<>("date"));
         playerName.setCellValueFactory(new PropertyValueFactory<>("playerName"));
 
         //Open session factory
         sessionFactory = HibernateUtil.getSessionFactory();
-
 
         loadScoresFromDatabase();
 

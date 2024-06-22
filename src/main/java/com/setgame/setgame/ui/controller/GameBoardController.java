@@ -31,7 +31,6 @@ public class GameBoardController {
     private Button backButton;
 
     private Game game;
-    private GameTimer gameTimer;
 
     // Initialisierungsmethode, die aufgerufen wird, wenn das FXML geladen wird
     @FXML
