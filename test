@@ -1,0 +1,125 @@
+---
+title: MgmtUstgSys – Systemübersicht IST (Umgebung QS, Stand 15.10.2026)
+config:
+  theme: 'base'
+  themeVariables:
+    primaryTextColor: '#000'
+    lineColor: '#000'
+---
+flowchart LR
+
+%% IST-Stand der Systemuebersicht (QS), abgeleitet aus MAFASBw_Bausteinansicht (Soll)
+%% Quellen (Stand 15.10.2026): docker-compose.qs.yml, docker-compose.shared.yml,
+%%   infra/traefik/traefik-config.yml, builder-adapter LogFileWatcher.java,
+%%   MessagePublisher/RabbitMqPublisher, message-gateway MessageGatewayController.java, RabbitMqEventListener.java
+%% IDs, Subgraphen und Styling aus dem Soll uebernommen
+%% Gestrichelte Kante = noch nicht belegt, bitte pruefen
+%% Abweichung Entwicklungsumgebung (docker-compose.yml): Builder-Adapter laeuft dort als
+%%   Container musys-builder-adapter mit Docker-Volume builder-adapter-data statt Host-Verzeichnis
+%% Nicht im Ist: Keycloak/Auth, HAProxy, separates NGINX, Observability (OTLP auskommentiert),
+%% Vault, GeoCalc (Image wird gebaut, in QS nicht deployt), OrgUnits, ArchSamples, RZCalc
+
+%% Actors
+    user[User<br/>Plan management and overview]
+    ops[Ops<br/>Monitoring, ...]
+
+%% Edge Layer
+    subgraph edge[Edge Layer]
+        traefik["Traefik 3.7 · Container traefik<br/>Host-Port 9090 → web :80, kein TLS<br/>Dashboard :8080 (api.insecure)<br/>Rate Limit 100/s, Burst 200"]
+    end
+
+%% Presentation Layer
+    subgraph ui[Presentation Layer]
+        spa["MuSys SPA<br/>Container client :8080<br/>React + Vite"]
+    end
+
+%% Core Service
+    subgraph musyscore[Core Service]
+        core_srv["MuSys Core BFF<br/>Container backend :7000<br/>Modul musys-ms<br/>Java Spring Boot"]
+    end
+
+%% SSE Service
+    subgraph eventgateway[Event Gateway Service]
+        sse_srv["Message Gateway<br/>Container message-gateway :7002<br/>SSE-Sessions, Replay, Live-Push<br/>Topics job-status, log-entry"]
+    end
+
+%% Datenbank
+    subgraph sqlserver["SQL Server 2022 Express · Container sqlserver"]
+        core_db[("DB musys")]
+        sse_db[("DB messagegw")]
+    end
+
+%% Adapter Artifact Repository
+    subgraph artifactrepo[Adapter Artifact Repository]
+        artifact_srv["ArtifactRepo Service<br/>Container artefacts-host :7003<br/>Browse, Download, ZIP"]
+    end
+
+%% Adapter GMN – laeuft in QS ausserhalb von Docker
+    subgraph builder["Adapter GMN Builder · nativ auf Windows-Host"]
+        builder_srv["GMN Builder Service<br/>Builder-Adapter<br/>Task-Verarbeitung<br/>LogFileWatcher (WatchService)"]
+        builder_extsrc["GMN Builder<br/>Headless CLI"]
+    end
+
+    artifact_extsrc[("Host-Verzeichnis D:\data\builder-adapter<br/>Container-Mount /mnt/musys-share<br/>builderOptions.json, progress.log,<br/>statusHistory.json, Artefakte")]
+
+%% Message Backbone
+    subgraph msg[Message Backbone]
+        jobqueue["RabbitMQ 4.3 · Container rabbitmq<br/>mgw.events.exchange (topic)<br/>mgw.bff.queue (TTL 24 h)<br/>mgw.dlx / mgw.dlq"]
+    end
+
+%% User Interactions
+    user -->|"HTTP Host:9090"| traefik
+    ops -->|"Dashboard :8080<br/>/rabbitmq"| traefik
+
+%% Traefik Routing (traefik-config.yml)
+    traefik -->|"/ (Rest)"| spa
+    traefik -->|"/api → /v1/…<br/>strip /api"| core_srv
+    traefik -->|"/api/v1/events → /events<br/>SSE: jobId, topics, since"| sse_srv
+    traefik -->|"/api/v1/artefacts"| artifact_srv
+    traefik -->|"/api/v1/builder"| builder_srv
+    traefik -->|"/rabbitmq<br/>Management UI, ohne IP-Filter"| jobqueue
+
+%% BFF Operations
+    core_srv -->|JDBC| core_db
+    core_srv -->|"REST direkt<br/>MUSYS_BUILDER_ADAPTER_BASE_URL"| builder_srv
+    core_srv -.->|"Mount vorhanden,<br/>Nutzung im Code ungeklaert"| artifact_extsrc
+
+%% SSE Service Connections
+    sse_srv -->|"JDBC<br/>Replay verpasster Events"| sse_db
+    jobqueue -->|"RabbitMqEventListener<br/>Queue app.rabbitmq.queue<br/>manuelles ACK, Fehler → DLQ"| sse_srv
+
+%% GMN Adapter
+    builder_srv -->|"Callback HTTP PUT<br/>MUSYS_BASE_URL Host:9090/api/v1"| traefik
+    builder_srv -->|"schreibt builderOptions.json"| artifact_extsrc
+    builder_srv -->|"startet Prozess<br/>wartet auf Exit-Code"| builder_extsrc
+    builder_extsrc -->|"Artefakte, progress.log,<br/>statusHistory.json"| artifact_extsrc
+    builder_srv -->|"ueberwacht Log-/Statusdateien"| artifact_extsrc
+    builder_srv -->|"LogMessage, StatusMessage<br/>RabbitMqPublisher (AMQP)"| jobqueue
+
+%% ArtifactRepo Adapter
+    artifact_srv -->|liest| artifact_extsrc
+
+%% Legend
+    subgraph legend[Legend]
+        l1["Baustein, im Code/Deployment belegt"]
+        l3["Fremdsystem"]
+        l4[("Datenhaltung")]
+        l1 -->|"belegt"| l3
+        l1 -.->|"noch zu pruefen"| l4
+    end
+
+%% Styling
+    classDef actor fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    classDef edge fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef service fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef data fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    classDef integration fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef external fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    classDef pruefen fill:#f5f5f5,stroke:#757575,stroke-width:2px,stroke-dasharray:5 5
+
+    class user,ops actor
+    class traefik edge
+    class core_srv,builder_srv,artifact_srv,sse_srv,spa,l1 service
+    class core_db,sse_db,artifact_extsrc,l4 data
+    class jobqueue integration
+    class builder_extsrc,l3 external
