@@ -1,1 +1,104 @@
-est
+---
+title: MgmtUstgSys – Building Block View Level 1 – AS-IS (QS environment, 2026-10-15)
+config:
+  theme: 'base'
+  themeVariables:
+    primaryTextColor: '#000'
+    lineColor: '#000'
+---
+flowchart LR
+
+
+%% Actors
+    user[User<br/>Plan management and overview]
+    ops[Ops<br/>Monitoring, ...]
+
+%% Edge Layer
+    subgraph edge[Edge Layer]
+        traefik[Traefik API Gateway<br/>REST API Routing<br/>SSE Endpoint Routing<br/>Rate Limiting<br/>HTTP only, no TLS]
+    end
+
+%% Presentation Layer
+    subgraph ui[Presentation Layer]
+        spa[MuSys SPA<br/>React + Vite<br/>EventSource API]
+    end
+
+%% Core Service
+    subgraph musyscore[Core Service]
+        core_srv[MuSys Core BFF - backend for frontend -<br/>Java Spring Boot<br/>CRUD Operations<br/>Workflow Validation<br/>Job Management<br/>Callback Endpoint]
+        core_db[(BFF Database<br/>MSSQL<br/>Master data<br/>Job Infos)]
+    end
+
+%% Event Gateway Service
+    subgraph eventgateway[Event Gateway Service]
+        sse_srv[Message Gateway<br/>Java Spring Boot<br/>SSE Streaming<br/>Session Management<br/>Event Replay]
+        sse_db[(Message Gateway DB<br/>MSSQL<br/>Store Events for Replay)]
+    end
+
+%% Adapter GMN
+    subgraph builder[Adapter GMN Builder · native on Windows host]
+        builder_srv[GMN Builder Adapter<br/>Java Spring Boot<br/>Task Processing<br/>Log File Watcher<br/>Simulation Mode]
+        builder_extsrc[GMN Headless Builder<br/>CLI]
+    end
+
+%% Adapter Artifact Repository
+    subgraph artifactrepo[Adapter Artifact Repository]
+        artifact_srv[ArtifactRepo Service<br/>Java Spring Boot<br/>File Browsing<br/>Download, ZIP Export]
+        artifact_extsrc[(File Share<br/>Host directory<br/>Builder options, logs,<br/>status files, artefacts)]
+    end
+
+%% Message Backbone
+    subgraph msg[Message Backbone]
+        jobqueue[Event Queue<br/>RabbitMQ<br/>Topic Exchange<br/>Durable Queue]
+        dlq[Dead Letter Queue<br/>RabbitMQ<br/>no consumer]
+    end
+
+%% User Interactions
+    user -->|HTTP| traefik
+    ops -->|"Gateway Dashboard<br/>RabbitMQ Management UI"| traefik
+
+%% Traefik Gateway Routing
+    traefik -->|Route /| spa
+    spa -->|"REST /api<br/>SSE /api/v1/events"| traefik
+    traefik -->|/api| core_srv
+    traefik -->|/api/v1/events<br/>SSE stream| sse_srv
+    traefik -->|/api/v1/artefacts| artifact_srv
+    traefik -->|/api/v1/builder| builder_srv
+    traefik -->|"/rabbitmq<br/>no IP filter"| jobqueue
+
+%% BFF Operations
+    core_srv -->|CRUD| core_db
+    core_srv -->|"REST, synchronous<br/>Get IT Service Modules<br/>Start Generation Task"| builder_srv
+    core_srv -.->|"Volume mounted<br/>usage unverified"| artifact_extsrc
+
+%% GMN Adapter
+    builder_srv -->|"Callback HTTP PUT<br/>Task Result via /api"| traefik
+    builder_srv -->|Write Builder Options| artifact_extsrc
+    builder_srv -->|"Start Process<br/>Wait for Exit Code"| builder_extsrc
+    builder_extsrc -->|Write Artefacts and Logs| artifact_extsrc
+    builder_srv -->|Watch Log and Status Files| artifact_extsrc
+    builder_srv -->|Publish Log and Status Events| jobqueue
+
+%% Event Gateway Connections
+    jobqueue -->|"Deliver Events<br/>manual ACK"| sse_srv
+    jobqueue -->|"Rejected Messages<br/>NACK via DLX"| dlq
+    sse_srv -->|"Persist Events<br/>Replay"| sse_db
+
+%% ArtifactRepo Adapter
+    artifact_srv -->|Read/Download| artifact_extsrc
+
+%% Styling
+    classDef actor fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    classDef edge fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef service fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef data fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    classDef integration fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef observability fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef external fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+
+    class user,ops actor
+    class traefik edge
+    class spa,core_srv,builder_srv,artifact_srv,sse_srv service
+    class core_db,sse_db,artifact_extsrc data
+    class jobqueue,dlq integration
+    class builder_extsrc external
